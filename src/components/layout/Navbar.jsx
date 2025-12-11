@@ -4,10 +4,10 @@ import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
-  const {user, logOut} = useAuth();
-  console.log(user)
+  const { user, logOut } = useAuth();
+  console.log(user);
 
-    const handleLogOut = () => {
+  const handleLogOut = () => {
     logOut()
       .then(() => {})
       .catch((error) => console.log(error.message));
@@ -63,11 +63,16 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
         <div className="navbar-end">
-              {user ? (
-            <div className="avatar tooltip tooltip-left flex items-center gap-2" data-tip={user?.email} >
-              <img  className="w-10 rounded-full cursor-pointer " src={user?.photoURL} alt="" />
+          {user ? (
+            <div
+              className="avatar online mr-2 tooltip tooltip-bottom"
+              data-tip={user.displayName}
+            >
+              <div className="w-10 rounded-full">
+                <img src={user.photoURL} alt="" className=" cursor-pointer" />
+              </div>
               <button onClick={handleLogOut} className="btn btn-primary ml-2">
-                LogOut
+                Logout
               </button>
             </div>
           ) : (
