@@ -1,8 +1,11 @@
 import React from "react";
 import UrbanPulseLogo from "../shared/UrbanPulseLogo";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
+  const {user} = useAuth();
+  console.log(user)
   const navLinks = (
     <>
       <li>
@@ -10,6 +13,12 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink to="/issues">All Issues</NavLink>
+      </li>
+      <li>
+        <NavLink to="/about">About</NavLink>
+      </li>
+      <li>
+        <NavLink to="/contact">Contact</NavLink>
       </li>
     </>
   );
@@ -39,18 +48,17 @@ const Navbar = () => {
               tabIndex="-1"
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-             {navLinks}
+              {navLinks}
             </ul>
           </div>
           <UrbanPulseLogo />
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-           {navLinks}
-          </ul>
+          <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          <Link to="/register"><button className="btn btn-primary">Register</button></Link>
+          <Link to="/login"><button className="btn btn-secondary">Login</button></Link>
         </div>
       </div>
     </div>
