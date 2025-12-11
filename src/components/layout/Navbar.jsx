@@ -63,28 +63,37 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
         <div className="navbar-end">
-          {user ? (
-            <div
-              className="avatar online mr-2 tooltip tooltip-bottom"
-              data-tip={user.displayName}
-            >
-              <div className="w-10 rounded-full">
-                <img src={user.photoURL} alt="" className=" cursor-pointer" />
-              </div>
-              <button onClick={handleLogOut} className="btn btn-primary ml-2">
-                Logout
-              </button>
-            </div>
-          ) : (
-            <div>
-              <NavLink to="/register">
-                <button className="btn btn-secondary">Register</button>
-              </NavLink>
-              <NavLink to="/login">
-                <button className="btn btn-primary ms-2">Login</button>
-              </NavLink>
-            </div>
-          )}
+        {user ? (
+  <div className="flex items-center">
+    {/* Tooltip only on image */}
+    <div className="tooltip tooltip-bottom" data-tip={user.displayName}>
+      <div className="avatar">
+        <div className="w-10 rounded-full">
+          <img
+            src={user.photoURL}
+            alt={user.displayName}
+            className="cursor-pointer"
+          />
+        </div>
+      </div>
+    </div>
+
+    <button onClick={handleLogOut} className="btn btn-primary ml-2">
+      Logout
+    </button>
+  </div>
+) : (
+  <div>
+    <NavLink to="/register">
+      <button className="btn btn-secondary">Register</button>
+    </NavLink>
+    <NavLink to="/login">
+      <button className="btn btn-primary ms-2">Login</button>
+    </NavLink>
+  </div>
+)}
+
+
         </div>
       </div>
     </div>
@@ -92,3 +101,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+// <div className="avatar online mr-2 tooltip tooltip-bottom" data-tip={user.displayName}><div className="w-10 rounded-full"><img src={user.photoURL} alt="" className=" cursor-pointer" /></div></div>
