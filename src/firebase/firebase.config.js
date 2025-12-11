@@ -6,13 +6,16 @@ import { getAuth } from "firebase/auth"
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAQwNsNHmrVA58hJ-rqKCM9vr57FIjUPOE",
-  authDomain: "urbanpulse-cb977.firebaseapp.com",
-  projectId: "urbanpulse-cb977",
-  storageBucket: "urbanpulse-cb977.firebasestorage.app",
-  messagingSenderId: "26612625476",
-  appId: "1:26612625476:web:7aa38a5f992bdd47af8c11"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
+
+export default firebaseConfig;
+
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
