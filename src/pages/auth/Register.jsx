@@ -1,13 +1,17 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "./GoogleLogin";
 import useAuth from "../../hooks/useAuth";
-
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import axios from "axios";
 
 const Register = () => {
+  const axiosSecure = useAxiosSecure();
 
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const { registerUser, updateUserProfile } = useAuth();
   const {
@@ -17,13 +21,9 @@ const Register = () => {
   } = useForm();
 
   const handleRegister = (data) => {
-
     const profileImage = data.photo[0];
 
-    registerUser(data.email, data.password)
-    .then((result) => {
-     
-
+    registerUser(data.email, data.password).then((result) => {
       const formData = new FormData();
       formData.append("image", profileImage);
 
@@ -33,16 +33,44 @@ const Register = () => {
       }`;
 
       // 2. Upload to ImgBB using Axios
-       console.log(result.user,imageApiUrl);
+      axios.post(imageApiUrl, formData).then((res) => {
+        const photoURL = res.data.data.url;
 
-      
+        //3. Create user in the database
+        const user = {
+          email: data.email,
+          displayName: data.name,
+          photoURL: photoURL,
+          password: data.password,
+        };
+
+        axiosSecure.post("/users", user).then((res) => {
+          if (res.data.insertedId) {
+            navigate(location.state || "/");
+          }
+          // console.log('user created in db' ,res.data);
+        });
+
+        // 4.Update profile
+        const userProfile = {
+          displayName: data.name,
+          photoURL: photoURL,
+        };
+
+        updateUserProfile(userProfile)
+          .then(() => {
+            console.log("User profile updated");
+            navigate(location.state || "/");
+          })
+          .catch((error) => console.log(error.message));
+      });
     });
   };
   return (
     <div className="card bg-base-100 mx-auto w-full max-w-sm shrink-0 shadow-2xl mt-8">
       <div className="card-body">
         <h2 className="text-3xl font-bold text-secondary">Create an Account</h2>
-        <p className="text-gray-600">register with zapShipt</p>
+        <p className="text-gray-600">register with UrbanPulse</p>
         <form onSubmit={handleSubmit(handleRegister)}>
           <fieldset className="fieldset">
             {/* Name */}

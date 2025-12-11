@@ -6,7 +6,7 @@ import GoogleLogin from "./GoogleLogin";
 import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
-  const { signIn, } = useAuth();
+  const { signIn } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,7 +30,7 @@ const Login = () => {
     <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl mt-8 ">
       <div className="card-body">
         <h2 className="text-3xl font-bold text-secondary ">Welcome Back</h2>
-        <p className="text-gray-600">Login with zapShipt</p>
+        <p className="text-gray-600">Login with UrbanPulse</p>
         <form onSubmit={handleSubmit(handleLogin)}>
           <fieldset className="fieldset">
             {/* Email */}
@@ -77,9 +77,9 @@ const Login = () => {
             <button className="btn btn-neutral mt-4">Login</button>
           </fieldset>
           <p className="mt-3">
-            New to zapShipt?
+            New to UrbanPulse?
             <Link
-            state={location.state}
+              state={location.state}
               to="/register"
               className="link link-hover underline hover:text-green-600"
             >
