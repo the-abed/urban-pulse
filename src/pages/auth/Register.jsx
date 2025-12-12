@@ -41,14 +41,14 @@ const Register = () => {
           email: data.email,
           displayName: data.name,
           photoURL: photoURL,
-          password: data.password,
+         
         };
 
         axiosSecure.post("/users", user).then((res) => {
           if (res.data.insertedId) {
             navigate(location.state || "/");
           }
-          // console.log('user created in db' ,res.data);
+          // console.log('user created in db' ,res.data) User@1212;
         });
 
         // 4.Update profile

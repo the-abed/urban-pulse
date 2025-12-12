@@ -1,0 +1,160 @@
+{
+  "division": "Chattogram",
+  "districts": [
+    {
+      "district": "Chattogram",
+      "upazilas": [
+        "Anwara",
+        "Banshkhali",
+        "Boalkhali",
+        "Chandanaish",
+        "Fatikchhari",
+        "Hathazari",
+        "Karimganj",
+        "Lohagara",
+        "Mirsharai",
+        "Patiya",
+        "Rangunia",
+        "Raozan",
+        "Sandwip",
+        "Satkania",
+        "Sitakunda",
+        "Kotwali",
+        "Panchlaish",
+        "Halishahar",
+        "Chandgaon",
+        "Pahartali"
+      ]
+    },
+    {
+      "district": "Cox's Bazar",
+      "upazilas": [
+        "Cox's Bazar Sadar",
+        "Chakaria",
+        "Kutubdia",
+        "Moheshkhali",
+        "Ramu",
+        "Teknaf",
+        "Ukhia"
+      ]
+    },
+    {
+      "district": "Bandarban",
+      "upazilas": [
+        "Bandarban Sadar",
+        "Thanchi",
+        "Ruma",
+        "Rowangchhari",
+        "Lama",
+        "Alikadam",
+        "Naikhongchhari"
+      ]
+    },
+    {
+      "district": "Rangamati",
+      "upazilas": [
+        "Rangamati Sadar",
+        "Bagaichhari",
+        "Barkal",
+        "Kawkhali",
+        "Kaptai",
+        "Langadu",
+        "Naniarchar",
+        "Rajasthali",
+        "Juraichhari"
+      ]
+    },
+    {
+      "district": "Khagrachhari",
+      "upazilas": [
+        "Khagrachhari Sadar",
+        "Dighinala",
+        "Laxmichhari",
+        "Mahalchhari",
+        "Manikchhari",
+        "Matiranga",
+        "Panchhari",
+        "Ramgarh"
+      ]
+    },
+    {
+      "district": "Noakhali",
+      "upazilas": [
+        "Noakhali Sadar",
+        "Begumganj",
+        "Chatkhil",
+        "Companiganj",
+        "Hatiya",
+        "Senbagh",
+        "Sonaimuri",
+        "Subarnachar"
+      ]
+    },
+    {
+      "district": "Feni",
+      "upazilas": [
+        "Feni Sadar",
+        "Chhagalnaiya",
+        "Daganbhuiyan",
+        "Parshuram",
+        "Fulgazi",
+        "Sonagazi"
+      ]
+    },
+    {
+      "district": "Laxmipur",
+      "upazilas": [
+        "Lakshmipur Sadar",
+        "Ramganj",
+        "Ramgati",
+        "Komol Nagar"
+      ]
+    },
+    {
+      "district": "Brahmanbaria",
+      "upazilas": [
+        "Brahmanbaria Sadar",
+        "Ashuganj",
+        "Nasirnagar",
+        "Nabinagar",
+        "Sarail",
+        "Kasba",
+        "Bancharampur",
+        "Bijoynagar"
+      ]
+    },
+    {
+      "district": "Cumilla",
+      "upazilas": [
+        "Comilla Sadar",
+        "Sadar Dakshin",
+        "Barura",
+        "Brahmanpara",
+        "Burichong",
+        "Chandina",
+        "Chauddagram",
+        "Daudkandi",
+        "Debidwar",
+        "Homna",
+        "Laksam",
+        "Muradnagar",
+        "Nangalkot",
+        "Titas",
+        "Monohorgonj"
+      ]
+    },
+    {
+      "district": "Chandpur",
+      "upazilas": [
+        "Chandpur Sadar",
+        "Faridganj",
+        "Haimchar",
+        "Hajiganj",
+        "Kachua",
+        "Matlab North",
+        "Matlab South",
+        "Shahrasti"
+      ]
+    }
+  ]
+}

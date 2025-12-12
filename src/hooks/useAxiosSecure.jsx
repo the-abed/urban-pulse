@@ -1,33 +1,47 @@
 import axios from "axios";
+import React, { useEffect } from "react";
+
+import { useNavigate } from "react-router";
+import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
-  baseURL: import.meta.env.VITE_BACKEND_URL, // 
+  baseURL: import.meta.env.VITE_BACKEND_URL,
 });
-
-// Request Interceptor → Attach JWT to every request
-axiosSecure.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
-// Response Interceptor → Handle expired/invalid JWT
-axiosSecure.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401 || error.response?.status === 403) {
-      localStorage.removeItem("token");
-      window.location.href = "/login"; // auto logout
-    }
-    return Promise.reject(error);
-  }
-);
-
-
-
 const useAxiosSecure = () => {
+  const { user, logOut } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Intercept request
+    const requestInterceptor = axiosSecure.interceptors.request.use(
+      (config) => {
+        config.headers.authorization = `Bearer ${user?.accessToken}`;
+        return config;
+      }
+    );
+    // Intercept response
+    const responseInterceptor = axiosSecure.interceptors.response.use(
+      (response) => {
+        return response;
+      },
+      async (error) => {
+        console.log(error);
+        if (
+          error.response &&
+          (error.response.status === 401 || error.response.status === 403)
+        ) {
+          await logOut();
+          navigate("/login");
+        }
+        return Promise.reject(error);
+      }
+    );
+    return () => {
+      axiosSecure.interceptors.request.eject(requestInterceptor);
+      axiosSecure.interceptors.response.eject(responseInterceptor);
+    };
+  }, [user, navigate, logOut]);
+
   return axiosSecure;
 };
 

@@ -6,6 +6,9 @@ import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import Register from "../pages/auth/Register";
 import Login from "../pages/auth/Login";
+import ReportIssue from "../deshboard/citizen/pages/ReportIssue";
+import PrivateRoute from "./PrivateRoute";
+import IssueDetails from "../pages/Issues/IssueDetails/IssueDetails";
 
 const router = createBrowserRouter([
   {
@@ -18,15 +21,20 @@ const router = createBrowserRouter([
       },
       {
         path: "/register",
-        Component: Register
+        Component: Register,
       },
       {
         path: "/login",
-        Component: Login
+        Component: Login,
       },
       {
         path: "/issues",
         Component: AllIssue,
+      },
+      {
+        path: "/issue/:id",
+        Component: IssueDetails
+
       },
       {
         path: "/about",
@@ -35,6 +43,22 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         Component: Contact,
+      },
+      {
+        path: "/reportIssue",
+        Component: () => (
+          <PrivateRoute>
+            <ReportIssue />
+          </PrivateRoute>
+        ),
+        loader: async () => {
+          const response = await fetch("/locations.json");
+          const data = await response.json();
+          return {
+            city: data.division,
+            areas: data.districts[0].upazilas,
+          };
+        },
       },
     ],
   },
