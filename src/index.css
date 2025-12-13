@@ -3,7 +3,15 @@
 
 /* tailwind and daisyui import */
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+   themes: light --default, dark ;
+ }
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: #f0aa38;
+  --color-secondary: teal;
+}
 
 body{
   font-family: "Inter", sans-serif;

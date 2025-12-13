@@ -1,0 +1,48 @@
+/* --------------------------- */
+/* Default Light Theme          */
+/* --------------------------- */
+:root {
+  color-scheme: light;
+  --color-base-100: #ffffff;
+  --color-base-200: oklch(95% 0.02 240);
+  --color-base-300: #f0fdf4;
+  --color-text-primary: oklch(10% 0.02 240);
+  --color-text-secondary: oklch(25% 0.03 240);
+  --color-muted: ;
+  --color-primary: #ff9500;
+  --color-secondary: #376d75;
+  --color-accent: oklch(80% 0.17 100);
+  --color-success: oklch(40% 0.18 150);
+  --color-warning: oklch(60% 0.18 90);
+  --color-error: oklch(50% 0.2 30);
+  --color-border: oklch(85% 0.03 240);
+  --shadow-color: rgba(0, 0, 0, 0.277);
+}
+
+
+/* --------------------------- */
+/* Custom Dark Theme  */
+/* --------------------------- */
+:root:has(input.theme-controller[value=mytheme]:checked),
+[data-theme="mytheme"] {
+  color-scheme: dark;
+  --color-base-100: oklch(22% 0.02 260);
+  --color-base-200: oklch(22% 0.03 260);
+  --color-base-300: oklch(28% 0.04 260);
+  --color-text-primary: oklch(98% 0.02 260);
+  --color-text-secondary: oklch(85% 0.03 260);
+  --color-muted: oklch(22% 0.03 260);
+  --color-primary: #ff9500;
+  --color-secondary: oklch(65% 0.15 200);
+  --color-accent: oklch(80% 0.17 100);
+  --color-success: oklch(65% 0.18 150);
+  --color-warning: oklch(75% 0.18 90);
+  --color-error: oklch(65% 0.2 30);
+  --color-border: oklch(35% 0.03 260);
+  --shadow-color: rgba(240, 170, 56, 0.3);
+}
+
+.myBtn{
+  background-color: var(--color-primary);
+  color: var(--color-base-100);
+}

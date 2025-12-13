@@ -2,6 +2,7 @@ import React from "react";
 import UrbanPulseLogo from "../shared/UrbanPulseLogo";
 import { Link, NavLink } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import ThemeController from "../ui/ThemeController";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
@@ -62,38 +63,41 @@ const Navbar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
+        {/* Navbar end */}
         <div className="navbar-end">
-        {user ? (
-  <div className="flex items-center">
-    {/* Tooltip only on image */}
-    <div className="tooltip tooltip-bottom" data-tip={user.displayName}>
-      <div className="avatar">
-        <div className="w-10 rounded-full">
-          <img
-            src={user.photoURL}
-            alt={user.displayName}
-            className="cursor-pointer"
-          />
-        </div>
-      </div>
-    </div>
+          <ThemeController></ThemeController>
+          {user ? (
+            <div className="flex items-center">
+              {/* Tooltip only on image */}
+              <div
+                className="tooltip tooltip-bottom"
+                data-tip={user.displayName}
+              >
+                <div className="avatar">
+                  <div className="w-10 rounded-full">
+                    <img
+                      src={user.photoURL}
+                      alt={user.displayName}
+                      className="cursor-pointer"
+                    />
+                  </div>
+                </div>
+              </div>
 
-    <button onClick={handleLogOut} className="btn btn-primary ml-2">
-      Logout
-    </button>
-  </div>
-) : (
-  <div>
-    <NavLink to="/register">
-      <button className="btn btn-secondary">Register</button>
-    </NavLink>
-    <NavLink to="/login">
-      <button className="btn btn-primary ms-2">Login</button>
-    </NavLink>
-  </div>
-)}
-
-
+              <button onClick={handleLogOut} className="btn btn-primary ml-2">
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div>
+              <NavLink to="/register">
+                <button className="btn btn-secondary">Register</button>
+              </NavLink>
+              <NavLink to="/login">
+                <button className="btn btn-primary ms-2">Login</button>
+              </NavLink>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -101,6 +105,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
 
 // <div className="avatar online mr-2 tooltip tooltip-bottom" data-tip={user.displayName}><div className="w-10 rounded-full"><img src={user.photoURL} alt="" className=" cursor-pointer" /></div></div>
