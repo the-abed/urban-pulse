@@ -4,7 +4,9 @@ import { useQuery } from "@tanstack/react-query";
 import IssueCard from "./IssuCard/IssueCard";
 import IssueCardSkeleton from "./IssuCard/IssueCardSkeleton/IssueCardSkeleton";
 
+
 const AllIssue = () => {
+  
   const axiosSecure = useAxiosSecure();
 
   const { data: issues = [], isLoading } = useQuery({

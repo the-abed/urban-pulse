@@ -1,22 +1,35 @@
-import React from 'react';
-import { MapPin, Clock, User, AlertCircle } from "lucide-react";
-import { useParams } from 'react-router';
-import useAxiosSecure from '../../../hooks/useAxiosSecure';
-import { useQuery } from '@tanstack/react-query';
-
+import React from "react";
+import {
+  MapPin,
+  Clock,
+  AlertCircle,
+  ArrowUpCircle,
+  Pencil,
+  Trash2,
+  UserCheck,
+} from "lucide-react";
+import { useParams, useNavigate } from "react-router";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAuth from "../../../hooks/useAuth";
 
 const IssueDetails = () => {
-    const {id} = useParams();
-    const axiosSecure = useAxiosSecure();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
 
-    const { data: issue = {}} = useQuery({
-        queryKey: ['issue', id],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/issues/${id}`);
-            return res.data;
-        }
-    })
-      const {
+  /* ---------------- FETCH ISSUE ---------------- */
+  const { data: issue = {}, isLoading } = useQuery({
+    queryKey: ["issue", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/issues/${id}`);
+      return res.data;
+    },
+  });
+
+  const {
     title,
     description,
     category,
@@ -25,134 +38,159 @@ const IssueDetails = () => {
     photoUrl,
     status,
     createdAt,
-    displayName,
+    email,
+    priority,
+    boosted,
+    assignedStaff,
+    timeline = [],
   } = issue;
-   
-    return (
-        <div>
-            {/* Issue details  */}
-             {/* Header */}
+
+  const isOwner = user?.email === email;
+  const canEdit = isOwner && status === "pending";
+
+  /* ---------------- DELETE ---------------- */
+  const deleteMutation = useMutation({
+    mutationFn: async () => axiosSecure.delete(`/issues/${id}`),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["issues"]);
+      navigate("/issues");
+    },
+  });
+
+  /* ---------------- BOOST ---------------- */
+  const boostMutation = useMutation({
+    mutationFn: async () =>
+      axiosSecure.patch(`/issues/${id}/boost`, {
+        amount: 100,
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(["issue", id]);
+    },
+  });
+
+  if (isLoading) return <p className="text-center">Loading...</p>;
+
+  return (
+    <div className="space-y-10">
+
+      {/* ---------------- HEADER ---------------- */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        {/* Image Section */}
+
+        {/* IMAGE */}
         <div className="lg:col-span-2">
-          <div className="relative overflow-hidden rounded-2xl shadow-lg">
+          <div className="relative rounded-2xl overflow-hidden shadow-lg">
             <img
               src={photoUrl}
               alt={title}
-              className="w-full h-[360px] object-cover"
+              className="h-[360px] w-full object-cover"
             />
-            <span className="absolute top-4 left-4 badge badge-primary badge-lg">
+            <span className="absolute top-4 left-4 badge badge-primary">
               {category}
             </span>
+            {priority === "high" && (
+              <span className="absolute top-4 right-4 badge badge-error">
+                High Priority
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Info Card */}
+        {/* INFO CARD */}
         <div className="card bg-base-100 shadow-xl">
-          <div className="card-body gap-4">
+          <div className="card-body space-y-3">
+
             <h2 className="card-title text-2xl">{title}</h2>
 
-            <div className="flex items-center gap-2 text-sm text-base-content/70">
-              <MapPin size={16} />
-              {city}, {area}
-            </div>
+            <p className="flex gap-2 text-sm opacity-70">
+              <MapPin size={16} /> {city}, {area}
+            </p>
 
-            <div className="flex items-center gap-2 text-sm text-base-content/70">
+            <p className="flex gap-2 text-sm opacity-70">
               <Clock size={16} />
               {new Date(createdAt).toLocaleDateString()}
-            </div>
+            </p>
 
-            <div className="flex items-center gap-2">
-              <span
-                className={`badge ${
-                  status === "pending"
-                    ? "badge-warning"
-                    : status === "resolved"
-                    ? "badge-success"
-                    : "badge-info"
-                }`}
+            <span className="badge badge-outline">{status}</span>
+
+            {/* -------- ACTION BUTTONS -------- */}
+            {canEdit && (
+              <button
+                onClick={() => navigate(`/issues/edit/${id}`)}
+                className="btn btn-warning btn-sm flex gap-2"
               >
-                {status}
-              </span>
-            </div>
+                <Pencil size={16} /> Edit
+              </button>
+            )}
 
-            <div className="divider" />
+            {isOwner && (
+              <button
+                onClick={() => deleteMutation.mutate()}
+                className="btn btn-error btn-sm flex gap-2"
+              >
+                <Trash2 size={16} /> Delete
+              </button>
+            )}
 
-            <div className="flex items-center gap-3">
-              <div className="avatar placeholder">
-                <div className="bg-primary text-white rounded-full w-10">
-                  <span>{displayName?.charAt(0)}</span>
-                </div>
-              </div>
-              <div>
-                <p className="font-medium">{displayName}</p>
-                <p className="text-xs text-base-content/60">
-                  Issue Reporter
-                </p>
-              </div>
-            </div>
-
-            <button className="btn btn-outline btn-primary w-full">
-              Contact Authority
-            </button>
+            {!boosted && (
+              <button
+                onClick={() => boostMutation.mutate()}
+                className="btn btn-primary flex gap-2"
+              >
+                <ArrowUpCircle size={18} />
+                Boost Issue (৳100)
+              </button>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Description */}
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 card bg-base-100 shadow">
-          <div className="card-body">
-            <h3 className="text-lg font-semibold flex items-center gap-2">
-              <AlertCircle size={18} /> Description
-            </h3>
-            <p className="text-base-content/80 leading-relaxed">
-              {description}
-            </p>
-          </div>
+      {/* ---------------- DESCRIPTION ---------------- */}
+      <div className="card bg-base-100 shadow">
+        <div className="card-body">
+          <h3 className="text-lg font-semibold flex gap-2">
+            <AlertCircle size={18} /> Description
+          </h3>
+          <p className="opacity-80">{description}</p>
         </div>
+      </div>
 
-        {/* Timeline */}
+      {/* ---------------- STAFF INFO ---------------- */}
+      {assignedStaff && (
         <div className="card bg-base-100 shadow">
           <div className="card-body">
-            <h3 className="text-lg font-semibold">Issue Timeline</h3>
+            <h3 className="text-lg font-semibold flex gap-2">
+              <UserCheck size={18} /> Assigned Staff
+            </h3>
+            <p><strong>Name:</strong> {assignedStaff.name}</p>
+            <p><strong>Role:</strong> {assignedStaff.role}</p>
+            <p><strong>Phone:</strong> {assignedStaff.phone}</p>
+          </div>
+        </div>
+      )}
 
-            <ul className="timeline timeline-vertical">
-              <li>
+      {/* ---------------- TIMELINE ---------------- */}
+      <div className="card bg-base-100 shadow">
+        <div className="card-body">
+          <h3 className="text-lg font-semibold">Issue Timeline</h3>
+
+          <ul className="timeline timeline-vertical">
+            {timeline.map((item, index) => (
+              <li key={index}>
                 <div className="timeline-start text-xs opacity-70">
-                  Created
+                  {new Date(item.date).toLocaleDateString()}
                 </div>
                 <div className="timeline-middle bg-primary rounded-full" />
                 <div className="timeline-end text-sm">
-                  Issue reported
+                  {item.label}
                 </div>
               </li>
-              <li>
-                <div className="timeline-start text-xs opacity-70">
-                  Review
-                </div>
-                <div className="timeline-middle bg-info rounded-full" />
-                <div className="timeline-end text-sm">
-                  Under review
-                </div>
-              </li>
-              <li>
-                <div className="timeline-start text-xs opacity-70">
-                  Status
-                </div>
-                <div className="timeline-middle bg-success rounded-full" />
-                <div className="timeline-end text-sm">
-                  {status}
-                </div>
-              </li>
-            </ul>
-          </div>
+            ))}
+          </ul>
         </div>
       </div>
 
-        </div>
-    );
+    </div>
+  );
 };
 
 export default IssueDetails;

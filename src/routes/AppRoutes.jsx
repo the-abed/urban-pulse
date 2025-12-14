@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/issue/:id",
-        Component: IssueDetails
+        element: <PrivateRoute><IssueDetails></IssueDetails></PrivateRoute>
 
       },
       {

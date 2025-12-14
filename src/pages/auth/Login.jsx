@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "./GoogleLogin";
 import useAuth from "../../hooks/useAuth";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 const Login = () => {
   const { signIn } = useAuth();
@@ -17,10 +18,10 @@ const Login = () => {
   } = useForm();
 
   const handleLogin = (data) => {
-    console.log(data);
     signIn(data.email, data.password)
       .then((result) => {
-        console.log(result.user);
+        toast.success("Login successful");
+        // console.log(result.user);
         navigate(location.state || "/");
       })
       .catch((error) => console.log(error.message));
@@ -28,6 +29,7 @@ const Login = () => {
 
   return (
     <div className="card bg-base-100 w-full mx-auto max-w-sm shrink-0 shadow-2xl mt-8 ">
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
       <div className="card-body">
         <h2 className="text-3xl font-bold text-secondary ">Welcome Back</h2>
         <p className="text-gray-600">Login with UrbanPulse</p>
