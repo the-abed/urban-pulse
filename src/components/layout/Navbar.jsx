@@ -1,11 +1,12 @@
 import React from "react";
 import UrbanPulseLogo from "../shared/UrbanPulseLogo";
-import { Link, NavLink } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import ThemeController from "../ui/ThemeController";
 
 const Navbar = () => {
   const { user, logOut } = useAuth();
+  const navigate = useNavigate();
   // console.log(user);
 
   const handleLogOut = () => {
@@ -67,27 +68,48 @@ const Navbar = () => {
         <div className="navbar-end">
           <ThemeController></ThemeController>
           {user ? (
-            <div className="flex items-center">
-              {/* Tooltip only on image */}
-              <div
-                className="tooltip tooltip-bottom"
-                data-tip={user.displayName}
-              >
-                <div className="avatar">
-                  <div className="w-10 rounded-full">
-                    <img
-                      src={user.photoURL}
-                      alt={user.displayName}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                </div>
-              </div>
+          <div className="flex items-center">
+  <div className="dropdown dropdown-end">
+    {/* Avatar trigger */}
+    <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+      <div className="w-10 rounded-full">
+        <img
+          src={user.photoURL}
+          alt={user.displayName}
+          className="cursor-pointer"
+        />
+      </div>
+    </label>
 
-              <button onClick={handleLogOut} className="btn btn-primary ml-2">
-                Logout
-              </button>
-            </div>
+    {/* Dropdown menu */}
+    <ul
+      tabIndex={0}
+      className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+    >
+      {/* User name (disabled item) */}
+      <li className="pointer-events-none">
+        <span className="font-semibold">{user.displayName}</span>
+      </li>
+
+      <div className="divider my-1"></div>
+
+      {/* Dashboard */}
+      <li>
+        <button onClick={() => navigate("/dashboard")}>
+          Dashboard
+        </button>
+      </li>
+
+      {/* Logout */}
+      <li>
+        <button onClick={handleLogOut} className="text-error">
+          Logout
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+
           ) : (
             <div>
               <NavLink to="/register">
@@ -106,4 +128,3 @@ const Navbar = () => {
 
 export default Navbar;
 
-// <div className="avatar online mr-2 tooltip tooltip-bottom" data-tip={user.displayName}><div className="w-10 rounded-full"><img src={user.photoURL} alt="" className=" cursor-pointer" /></div></div>

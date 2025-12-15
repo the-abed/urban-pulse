@@ -29,24 +29,43 @@ const IssueDetails = () => {
     },
   });
 
-  const {
-    title,
-    description,
-    category,
-    city,
-    area,
-    photoUrl,
-    status,
-    createdAt,
-    email,
-    priority,
-    boosted,
-    assignedStaff,
-    timeline = [],
-  } = issue;
+const {
+  title,
+  description,
+  category,
+  city,
+  area,
+  photoUrl,
+  status,
+  createdAt,
+  priority,
+  boosted,
+  assignedStaff,
+  timeline = [],
+  upvotes = 0,
+  upvoters = [],
+  reporterEmail,
+} = issue;
 
-  const isOwner = user?.email === email;
-  const canEdit = isOwner && status === "pending";
+
+const isOwner = user?.email === reporterEmail;
+const hasUpvoted = upvoters.includes(user?.email);
+const canEdit = isOwner || user?.role === "admin";
+
+  const upvoteMutation = useMutation({
+  mutationFn: async () =>
+    axiosSecure.patch(`/issues/${id}/upvote`),
+
+  onSuccess: () => {
+    queryClient.invalidateQueries(["issue", id]);
+    queryClient.invalidateQueries(["issues"]); // list page sync
+  },
+
+  onError: (error) => {
+    alert(error?.response?.data?.message || "Upvote failed");
+  },
+});
+
 
   /* ---------------- DELETE ---------------- */
   const deleteMutation = useMutation({
@@ -140,6 +159,15 @@ const IssueDetails = () => {
                 Boost Issue (৳100)
               </button>
             )}
+            <button
+  onClick={() => upvoteMutation.mutate()}
+  disabled={isOwner || hasUpvoted || upvoteMutation.isLoading}
+  className="btn btn-outline flex gap-2"
+>
+  <ArrowUpCircle size={18} />
+  {hasUpvoted ? "Upvoted" : "Upvote"} ({upvotes})
+</button>
+
           </div>
         </div>
       </div>
