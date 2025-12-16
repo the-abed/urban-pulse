@@ -9,6 +9,7 @@ import Login from "../pages/auth/Login";
 import ReportIssue from "../deshboard/citizen/pages/ReportIssue";
 import PrivateRoute from "./PrivateRoute";
 import IssueDetails from "../pages/Issues/IssueDetails/IssueDetails";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +63,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/dashboard",
+    Component: DashboardLayout
+  }
 ]);
 
 export default router;

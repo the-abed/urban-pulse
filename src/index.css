@@ -2,16 +2,64 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 /* tailwind and daisyui import */
+/* tailwind and daisyui import */
 @import "tailwindcss";
+
 @plugin "daisyui" {
-   themes: light --default, dark ;
- }
+  themes: light --default, dark;
+}
+
+/* --------------------------- */
+/* 🌤️ LIGHT THEME (Default)   */
+/* --------------------------- */
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #ea6540;
-  --color-secondary: teal;
+
+  /* Brand Colors */
+  --color-primary: #ea6540;      /* Warm orange */
+  --color-secondary: #0f766e;    /* Soft teal */
+  --color-accent: #f1f5f9;       /* Subtle gray */
+
+  /* Status Colors */
+  --color-info: #2563eb;
+  --color-success: #16a34a;
+  --color-warning: #f59e0b;
+  --color-error: #dc2626;
+
+  /* Base UI */
+  --base-100: #ffffff;          /* Main background */
+  --base-200: #f8fafc;          /* Cards */
+  --base-300: #e5e7eb;          /* Borders */
+  --base-content: #1f2937;      /* Text */
+
+  /* Effects */
+  --shadow-color: rgba(0, 0, 0, 0.08);
 }
+
+/* --------------------------- */
+/* 🌙 DARK THEME               */
+/* --------------------------- */
+@plugin "daisyui/theme" {
+  name: "dark";
+
+  --color-primary: #ea6540;
+  --color-secondary: #2dd4bf;
+  --color-accent: #1f2937;
+
+  --color-info: #60a5fa;
+  --color-success: #4ade80;
+  --color-warning: #facc15;
+  --color-error: #f87171;
+
+  --base-100: #0f172a;
+  --base-200: #111827;
+  --base-300: #1f2937;
+  --base-content: #e5e7eb;
+
+  --shadow-color: rgba(0, 0, 0, 0.4);
+}
+
 
 body{
   font-family: "Inter", sans-serif;
