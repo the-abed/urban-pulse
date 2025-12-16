@@ -34,13 +34,7 @@ const IssueCard = ({ issue }) => {
     try {
       setLoading(true);
 
-      await fetch(`/issues/${_id}/upvote`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
+      const res = await axiosSecure.post(`/issues/${_id}/upvote`);
 
       setVoteCount((prev) => prev + 1);
       setHasUpvoted(true);

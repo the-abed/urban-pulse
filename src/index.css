@@ -9,11 +9,23 @@
 @plugin "daisyui/theme" {
   name: "light";
   default: true;
-  --color-primary: #f0aa38;
+  --color-primary: #ea6540;
   --color-secondary: teal;
 }
 
 body{
   font-family: "Inter", sans-serif;
 }
+
+/* 
+#181A2F
+#242E49
+#37415C
+#FDA481
+#B4182D
+#54162B
+Dark Green: #16302B
+ */
+
+ 
 
