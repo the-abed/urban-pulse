@@ -1,8 +1,8 @@
 import { useLoaderData } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useContext } from "react";
-import AuthContext from "../../../contexts/AuthContext";
+import AuthContext from "../../contexts/AuthContext";
 import axios from "axios";
 
 const ReportIssue = () => {
