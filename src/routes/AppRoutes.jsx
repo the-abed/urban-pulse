@@ -6,10 +6,10 @@ import About from "../pages/About/About";
 import Contact from "../pages/Contact/Contact";
 import Register from "../pages/auth/Register";
 import Login from "../pages/auth/Login";
-import ReportIssue from "../deshboard/citizen/pages/ReportIssue";
 import PrivateRoute from "./PrivateRoute";
 import IssueDetails from "../pages/Issues/IssueDetails/IssueDetails";
 import DashboardLayout from "../layouts/DashboardLayout";
+import ReportIssue from "../deshboard/citizen/ReportIssue";
 
 const router = createBrowserRouter([
   {
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
         Component: AllIssue,
       },
       {
-        path: "/issue/:id",
+        path: "/issue-details/:id",
         element: <PrivateRoute><IssueDetails></IssueDetails></PrivateRoute>
 
       },

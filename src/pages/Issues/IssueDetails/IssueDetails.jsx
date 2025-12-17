@@ -68,13 +68,21 @@ const canEdit = isOwner || user?.role === "admin";
 
 
   /* ---------------- DELETE ---------------- */
-  const deleteMutation = useMutation({
-    mutationFn: async () => axiosSecure.delete(`/issues/${id}`),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["issues"]);
-      navigate("/issues");
-    },
-  });
+  // const deleteMutation = useMutation({
+  //   mutationFn: async () => axiosSecure.delete(`/issues/${id}`),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries(["issues"]);
+  //     navigate("/issues");
+  //   },
+  // });
+  const handleDelete = () => {
+    if (window.confirm("Are you sure you want to delete this issue?")) {
+      axiosSecure.delete(`/issues/my/${id}`).then(() => {
+        queryClient.invalidateQueries(["issues"]);
+        navigate("/issues");
+      });
+    }
+  };
 
   /* ---------------- BOOST ---------------- */
   const boostMutation = useMutation({
@@ -143,7 +151,7 @@ const canEdit = isOwner || user?.role === "admin";
 
             {isOwner && (
               <button
-                onClick={() => deleteMutation.mutate()}
+                onClick={handleDelete}
                 className="btn btn-error btn-sm flex gap-2"
               >
                 <Trash2 size={16} /> Delete

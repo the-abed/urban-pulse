@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import AllIssue from '../Issues/AllIssue';
 
 const Home = () => {
     return (
@@ -8,6 +9,7 @@ const Home = () => {
             <Link to="/reportIssue">
                 <button className="btn btn-primary">Report Issue</button>
             </Link>
+            <AllIssue></AllIssue>
         </div>
     );
 };

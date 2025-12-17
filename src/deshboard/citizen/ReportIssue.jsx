@@ -1,16 +1,19 @@
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useContext } from "react";
 import AuthContext from "../../contexts/AuthContext";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const ReportIssue = () => {
   const locations = useLoaderData(); // fetched from loader
 //   console.log(locations);
+  const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, reset } = useForm();
   const { user } = useContext(AuthContext);
+  console.log(user);
 
   const onSubmit = async (data) => {
     try {
@@ -34,17 +37,19 @@ const ReportIssue = () => {
         category: data.category,
         city: locations.city,
         area: data.area,
+        authorId: user.uid,
         displayName: user.displayName,
         email: user.email,
         photoUrl,
       };
 
-      const res = await axiosSecure.post("/issues", issueData);
+      const res = await axiosSecure.post("/issue", issueData);
 
       const result = res.data;
       if (result.insertedId) {
-        alert("Issue submitted successfully!");
+        toast("Issue submitted successfully!");
         reset();
+        navigate("/");
       } else {
         alert("Failed to submit issue");
       }
