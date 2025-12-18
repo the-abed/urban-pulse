@@ -13,7 +13,7 @@ const ReportIssue = () => {
   const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, reset } = useForm();
   const { user } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
 
   const onSubmit = async (data) => {
     try {
@@ -43,7 +43,7 @@ const ReportIssue = () => {
         photoUrl,
       };
 
-      const res = await axiosSecure.post("/issue", issueData);
+      const res = await axiosSecure.post("/issues/report", issueData);
 
       const result = res.data;
       if (result.insertedId) {
@@ -51,11 +51,11 @@ const ReportIssue = () => {
         reset();
         navigate("/");
       } else {
-        alert("Failed to submit issue");
+        toast("Failed to submit issue");
       }
     } catch (error) {
       console.error("Error submitting issue:", error);
-      alert(
+      toast(
         "Failed to submit issue: " +
           (error.response?.data?.message || error.message)
       );

@@ -12,6 +12,16 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import ReportIssue from "../deshboard/citizen/ReportIssue";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Payment/PaymentCancelled";
+import StaffRoute from "./StaffRoute";
+import StaffProfile from "../deshboard/staff/StaffProfile";
+import AssignedIssues from "../deshboard/staff/AssignedIssues";
+import ManageUsers from "../deshboard/admin/ManageUsers";
+import ManageStaff from "../deshboard/admin/ManageStaff";
+import AdminRoute from "./AdminRoute";
+import AssignStaff from "../deshboard/admin/AssignStaff";
+import ViewAllIssues from "../deshboard/admin/ViewAllIssues";
+import MyIssue from "../deshboard/citizen/MyIssue";
+import Profile from "../deshboard/citizen/Profile";
 
 const router = createBrowserRouter([
   {
@@ -73,18 +83,7 @@ const router = createBrowserRouter([
         index: true,
         Component: () => <h1>Dashboard</h1>,
       },
-      {
-        path: "/dashboard/citizen",
-        Component: () => <h1>Citizen Dashboard</h1>,
-      },
-      {
-        path: "/dashboard/admin",
-        Component: () => <h1>Admin Dashboard</h1>,
-      },
-      {
-        path: "/dashboard/staff",
-        Component: () => <h1>Staff Dashboard</h1>,
-      },
+      
       {
         path: '/dashboard/payment-success',
         Component: PaymentSuccess
@@ -92,7 +91,65 @@ const router = createBrowserRouter([
       {
         path: '/dashboard/payment-cancelled',
         Component: PaymentCancelled
-      }
+      },
+      //Admin routes
+      {
+        path: "/dashboard/manage-users",
+        element: <PrivateRoute>
+          <ManageUsers></ManageUsers>
+        </PrivateRoute>
+      },
+      {
+        path: "/dashboard/manage-staff",
+        element:
+        <AdminRoute>
+
+          <ManageStaff></ManageStaff>
+        </AdminRoute> 
+       
+      },
+      {
+        path: "/dashboard/assign-staff",
+        element: <AdminRoute>
+          <AssignStaff></AssignStaff>
+        </AdminRoute>
+      },
+      {
+        path: "/dashboard/view-all-issues",
+        element: 
+          <AdminRoute>
+            <ViewAllIssues></ViewAllIssues>
+          </AdminRoute>
+        
+      },
+      // staff routes
+      {
+        path: "/dashboard/staff-profile",
+        element: <StaffRoute>
+          <StaffProfile></StaffProfile>
+        </StaffRoute>
+      },
+      {
+        path: "/dashboard/assigned-issue",
+        element: <StaffRoute>
+          <AssignedIssues></AssignedIssues>
+        </StaffRoute>
+      },
+      // Citizen routes (Citizen@1212)
+     {
+      path: "/dashboard/profile",
+      element: <PrivateRoute>
+        <Profile></Profile>
+      </PrivateRoute>
+
+     },
+     {
+      path: "/dashboard/my-issue",
+      element: <PrivateRoute>
+        <MyIssue></MyIssue>
+      </PrivateRoute>
+     },
+     
     ]
   }
 ]);

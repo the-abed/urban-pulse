@@ -98,17 +98,19 @@ const IssueCard = ({ issue }) => {
           {title}
         </h2>
 
-        {/* Category & Boosted Badges */}
+        {/* Category & Priority Badges */}
         <div className="flex flex-wrap gap-2">
           <span className="badge badge-secondary badge-outline text-xs capitalize">
             {category}
           </span>
 
-          {boosted && (
-            <span className="badge badge-accent text-white border-none text-xs">
-              Boosted
-            </span>
-          )}
+          <span
+            className={`badge text-xs capitalize text-white border-none ${
+              boosted ? "bg-primary" : "bg-secondary"
+            }`}
+          >
+            {boosted ? "High Priority" : "Normal Priority"}
+          </span>
         </div>
 
         {/* Location */}

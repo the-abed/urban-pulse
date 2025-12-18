@@ -6,13 +6,16 @@ import { AiOutlineCheckCircle } from "react-icons/ai";
 import { FaAddressCard, FaMotorcycle } from "react-icons/fa6";
 import {
   MdAssignmentInd,
+  MdOutlineAllInbox,
   MdOutlineDirectionsBike,
   MdOutlineManageAccounts,
 } from "react-icons/md";
 import UrbanPulseLogo from "../components/shared/UrbanPulseLogo";
+import useRole from "../hooks/useRole";
 
 
 const DashboardLayout = () => {
+  const {role} = useRole();
 
   return (
     <div>
@@ -85,58 +88,141 @@ const DashboardLayout = () => {
                 </Link>
               </li>
 
-              <li>
-                <NavLink
-                  to="myParcel"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="My Parcel"
-                >
-                  <CiDeliveryTruck className="inline-block size-4.5" />
-                  <span className="is-drawer-close:hidden">My Parcel</span>
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="payment-history"
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Payment History"
-                >
-                  <CiCreditCard1 className="inline-block size-4.5" />
-                  <span className="is-drawer-close:hidden">
-                    Payment History
-                  </span>
-                </NavLink>
-              </li>
-
-              
-
-             
-
-              {/* List item */}
-              <li>
-                <button
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
-                >
-                  {/* Settings icon */}
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    fill="none"
-                    stroke="currentColor"
-                    className="my-1.5 inline-block size-4"
+              {/* Admin only links */}
+              {role === "admin" && (
+                <>
+                {/* Assign Staff */}
+                <li>
+                  <NavLink
+                    to="assign-staff"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Assign Staff"
                   >
-                    <path d="M20 7h-9"></path>
-                    <path d="M14 17H5"></path>
-                    <circle cx="17" cy="17" r="3"></circle>
-                    <circle cx="7" cy="7" r="3"></circle>
-                  </svg>
-                  <span className="is-drawer-close:hidden">Settings</span>
-                </button>
-              </li>
+                    <MdAssignmentInd className="inline-block size-4.5" />
+                    <span className="is-drawer-close:hidden">Assign Staff</span>
+                  </NavLink>
+                </li>
+                  <li>
+                    <NavLink
+                      to="manage-users"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Manage Users"
+                    >
+                      <MdOutlineManageAccounts className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">
+                        Manage Users
+                      </span>
+                    </NavLink>
+                  </li>
+
+                  {/* All issues */}
+                  <li>
+                    <NavLink
+                      to="view-all-issues"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="All Issues"
+                    >
+                      <MdOutlineAllInbox className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden"> View All Issues</span>
+                    </NavLink>
+                  </li>
+                  {/* Manage staff */}
+                  <li>
+                    <NavLink
+                      to="manage-staff"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Manage Staff"
+                    >
+                      <MdOutlineManageAccounts className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">
+                        Manage Staff
+                      </span>
+                    </NavLink>
+                  </li>
+                </>
+              )}
+
+              {/* Citizen only links */}
+              {
+                role === "citizen" && (
+                  <>
+                    <li>
+                      <NavLink
+                        to="profile"
+                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                        data-tip="Profile"
+                      >
+                        <MdOutlineManageAccounts className="inline-block size-4.5" />
+                        <span className="is-drawer-close:hidden">
+                          Profile
+                        </span>
+                      </NavLink>
+                    </li>
+                    {/* My issue */}
+                    <li>
+                      <NavLink
+                        to="my-issue"
+                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                        data-tip="My Issue"
+                      >
+                        <MdOutlineAllInbox className="inline-block size-4.5" />
+                        <span className="is-drawer-close:hidden">
+                          My Issue
+                        </span>
+                      </NavLink>
+                    </li>
+                    {/* Report Issue */}
+                    <li>
+                      <NavLink
+                        to="/reportIssue"
+                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                        data-tip="Report Issue"
+                      >
+                        <MdOutlineAllInbox className="inline-block size-4.5" />
+                        <span className="is-drawer-close:hidden">
+                          Report Issue
+                        </span>
+                      </NavLink>
+                    </li>
+                  </>
+                )
+              }
+
+              {/* Staff only links */}
+            {
+                role === "staff" && (
+                  <>
+                    <li>
+                      <NavLink
+                        to="staff-profile"
+                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                        data-tip="Profile"
+                      >
+                        <MdOutlineManageAccounts className="inline-block size-4.5" />
+                        <span className="is-drawer-close:hidden">
+                          Profile
+                        </span>
+                      </NavLink>
+                    </li>
+                    {/* Assigned issues */}
+                    <li>
+                      <NavLink
+                        to="assigned-issue"
+                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                        data-tip="Assigned Issues"
+                      >
+                        <MdOutlineAllInbox className="inline-block size-4.5" />
+                        <span className="is-drawer-close:hidden">
+                          Assigned Issues
+                        </span>
+                      </NavLink>
+                    </li>
+                  </>
+                )
+            }
+          
+              
+              
             </ul>
           </div>
         </div>
