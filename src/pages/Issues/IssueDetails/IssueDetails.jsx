@@ -12,6 +12,7 @@ import { useParams, useNavigate } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
+import LoaderSpinner from "../../../components/shared/LoaderSpinner";
 
 const IssueDetails = () => {
   const { id } = useParams();
@@ -29,43 +30,40 @@ const IssueDetails = () => {
     },
   });
 
-const {
-  title,
-  description,
-  category,
-  city,
-  area,
-  photoUrl,
-  status,
-  createdAt,
-  priority,
-  boosted,
-  assignedStaff,
-  timeline = [],
-  upvotes = 0,
-  upvoters = [],
-  reporterEmail,
-} = issue;
+  const {
+    title,
+    description,
+    category,
+    city,
+    area,
+    photoUrl,
+    status,
+    createdAt,
+    priority,
+    boosted,
+    assignedStaff,
+    timeline = [],
+    upvotes = 0,
+    upvoters = [],
+    reporterEmail,
+  } = issue;
 
-
-const isOwner = user?.email === reporterEmail;
-const hasUpvoted = upvoters.includes(user?.email);
-const canEdit = isOwner || user?.role === "admin";
+  const isOwner = user?.email === reporterEmail;
+  const hasUpvoted = upvoters.includes(user?.email);
+  const canEdit = isOwner || user?.role === "admin";
 
   const upvoteMutation = useMutation({
-  mutationFn: async () =>
-    axiosSecure.patch(`/issues/${id}/upvote`),
+    mutationFn: async () => axiosSecure.patch(`/issues/${id}/upvote`),
 
-  onSuccess: () => {
-    queryClient.invalidateQueries(["issue", id]);
-    queryClient.invalidateQueries(["issues"]); // list page sync
-  },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["issue", id]);
+      queryClient.invalidateQueries(["issues"]); // list page sync
+    },
 
-  onError: (error) => {
-    alert(error?.response?.data?.message || "Upvote failed");
-  },
-});
-
+    onError: (error) => {
+      alert(error?.response?.data?.message || "Upvote failed");
+    },
+  });
 
   /* ---------------- DELETE ---------------- */
   // const deleteMutation = useMutation({
@@ -85,24 +83,25 @@ const canEdit = isOwner || user?.role === "admin";
   };
 
   /* ---------------- BOOST ---------------- */
-  const boostMutation = useMutation({
-    mutationFn: async () =>
-      axiosSecure.patch(`/issues/${id}/boost`, {
-        amount: 100,
-      }),
-    onSuccess: () => {
-      queryClient.invalidateQueries(["issue", id]);
-    },
-  });
-
-  if (isLoading) return <p className="text-center">Loading...</p>;
+const handleBoost = async (issue) => {
+  const boostInfo = {
+    issueId: issue._id || issue.id,  // Use _id if available, fallback to id
+    amount: 100,
+    issueTitle: issue.title,
+    trackingId: issue.trackingId,
+    reporterEmail: issue.reporterEmail,  // Rename from issueReporterEmail
+  };
+  const res = await axiosSecure.post("/create-checkout-session", boostInfo);
+  console.log(res.data);
+  window.location.assign(res.data.url);
+};
+//4242
+  if (isLoading) return <LoaderSpinner></LoaderSpinner>;
 
   return (
     <div className="space-y-10">
-
       {/* ---------------- HEADER ---------------- */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
         {/* IMAGE */}
         <div className="lg:col-span-2">
           <div className="relative rounded-2xl overflow-hidden shadow-lg">
@@ -125,7 +124,6 @@ const canEdit = isOwner || user?.role === "admin";
         {/* INFO CARD */}
         <div className="card bg-base-100 shadow-xl">
           <div className="card-body space-y-3">
-
             <h2 className="card-title text-2xl">{title}</h2>
 
             <p className="flex gap-2 text-sm opacity-70">
@@ -160,7 +158,7 @@ const canEdit = isOwner || user?.role === "admin";
 
             {!boosted && (
               <button
-                onClick={() => boostMutation.mutate()}
+                onClick={() => handleBoost(issue)}
                 className="btn btn-primary flex gap-2"
               >
                 <ArrowUpCircle size={18} />
@@ -168,14 +166,13 @@ const canEdit = isOwner || user?.role === "admin";
               </button>
             )}
             <button
-  onClick={() => upvoteMutation.mutate()}
-  disabled={isOwner || hasUpvoted || upvoteMutation.isLoading}
-  className="btn btn-outline flex gap-2"
->
-  <ArrowUpCircle size={18} />
-  {hasUpvoted ? "Upvoted" : "Upvote"} ({upvotes})
-</button>
-
+              onClick={() => upvoteMutation.mutate()}
+              disabled={isOwner || hasUpvoted || upvoteMutation.isLoading}
+              className="btn btn-outline flex gap-2"
+            >
+              <ArrowUpCircle size={18} />
+              {hasUpvoted ? "Upvoted" : "Upvote"} ({upvotes})
+            </button>
           </div>
         </div>
       </div>
@@ -197,9 +194,15 @@ const canEdit = isOwner || user?.role === "admin";
             <h3 className="text-lg font-semibold flex gap-2">
               <UserCheck size={18} /> Assigned Staff
             </h3>
-            <p><strong>Name:</strong> {assignedStaff.name}</p>
-            <p><strong>Role:</strong> {assignedStaff.role}</p>
-            <p><strong>Phone:</strong> {assignedStaff.phone}</p>
+            <p>
+              <strong>Name:</strong> {assignedStaff.name}
+            </p>
+            <p>
+              <strong>Role:</strong> {assignedStaff.role}
+            </p>
+            <p>
+              <strong>Phone:</strong> {assignedStaff.phone}
+            </p>
           </div>
         </div>
       )}
@@ -216,15 +219,12 @@ const canEdit = isOwner || user?.role === "admin";
                   {new Date(item.date).toLocaleDateString()}
                 </div>
                 <div className="timeline-middle bg-primary rounded-full" />
-                <div className="timeline-end text-sm">
-                  {item.label}
-                </div>
+                <div className="timeline-end text-sm">{item.label}</div>
               </li>
             ))}
           </ul>
         </div>
       </div>
-
     </div>
   );
 };

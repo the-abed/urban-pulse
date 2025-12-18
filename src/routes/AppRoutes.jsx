@@ -10,6 +10,8 @@ import PrivateRoute from "./PrivateRoute";
 import IssueDetails from "../pages/Issues/IssueDetails/IssueDetails";
 import DashboardLayout from "../layouts/DashboardLayout";
 import ReportIssue from "../deshboard/citizen/ReportIssue";
+import PaymentSuccess from "../pages/Payment/PaymentSuccess";
+import PaymentCancelled from "../pages/Payment/PaymentCancelled";
 
 const router = createBrowserRouter([
   {
@@ -64,8 +66,34 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/dashboard",
-    Component: DashboardLayout
+    path: "dashboard",
+    element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+    children: [
+      {
+        index: true,
+        Component: () => <h1>Dashboard</h1>,
+      },
+      {
+        path: "/dashboard/citizen",
+        Component: () => <h1>Citizen Dashboard</h1>,
+      },
+      {
+        path: "/dashboard/admin",
+        Component: () => <h1>Admin Dashboard</h1>,
+      },
+      {
+        path: "/dashboard/staff",
+        Component: () => <h1>Staff Dashboard</h1>,
+      },
+      {
+        path: '/dashboard/payment-success',
+        Component: PaymentSuccess
+      },
+      {
+        path: '/dashboard/payment-cancelled',
+        Component: PaymentCancelled
+      }
+    ]
   }
 ]);
 
