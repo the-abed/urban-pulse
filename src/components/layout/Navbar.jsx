@@ -7,7 +7,7 @@ import ThemeController from "../ui/ThemeController";
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
-  // console.log(user);
+  console.log(user);
 
   const handleLogOut = () => {
     logOut()
@@ -72,7 +72,7 @@ const Navbar = () => {
   <div className="dropdown dropdown-end">
     {/* Avatar trigger */}
     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-      <div className="w-10 rounded-full">
+      <div className="w-10 rounded-full tooltip tooltip-bottom" data-tip={user.displayName}>
         <img
           src={user.photoURL}
           alt={user.displayName}
