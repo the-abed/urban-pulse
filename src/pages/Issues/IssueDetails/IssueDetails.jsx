@@ -34,8 +34,9 @@ const IssueDetails = () => {
     title,
     description,
     category,
-    city,
-    area,
+    district,
+    upazila,
+    
     photoUrl,
     status,
     createdAt,
@@ -127,7 +128,7 @@ const handleBoost = async (issue) => {
             <h2 className="card-title text-2xl">{title}</h2>
 
             <p className="flex gap-2 text-sm opacity-70">
-              <MapPin size={16} /> {city}, {area}
+              <MapPin size={16} /> {district}, {upazila}, 
             </p>
 
             <p className="flex gap-2 text-sm opacity-70">

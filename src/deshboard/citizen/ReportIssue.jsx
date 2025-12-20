@@ -1,7 +1,7 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../contexts/AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -14,6 +14,30 @@ const ReportIssue = () => {
   const { register, handleSubmit, reset } = useForm();
   const { user } = useContext(AuthContext);
   // console.log(user);
+    const [locationData, setLocationData] = useState(null);
+    const [districts, setDistricts] = useState([]);
+    const [upazilas, setUpazilas] = useState([]);
+    const [selectedDistrict, setSelectedDistrict] = useState("");
+
+    // 1. Fetch the JSON data from public folder
+    useEffect(() => {
+      fetch("/locations.json")
+        .then((res) => res.json())
+        .then((data) => {
+          setLocationData(data);
+          setDistricts(data.districts);
+        });
+    }, []);
+  
+    // 2. When district changes, update upazila list
+    const handleDistrictChange = (e) => {
+      const districtName = e.target.value;
+      setSelectedDistrict(districtName);
+  
+      const found = districts.find((d) => d.district === districtName);
+      setUpazilas(found ? found.upazilas : []);
+    };
+
 
   const onSubmit = async (data) => {
     try {
@@ -35,8 +59,8 @@ const ReportIssue = () => {
         title: data.title,
         description: data.description,
         category: data.category,
-        city: locations.city,
-        area: data.area,
+        district: data.district,
+        upazila: data.upazila,
         authorId: user.uid,
         displayName: user.displayName,
         email: user.email,
@@ -85,23 +109,35 @@ const ReportIssue = () => {
         <option value="garbage">Garbage</option>
         <option value="streetlight">Street Light</option>
       </select>
-      <input
-        type="text"
-        value={locations.city}
-        readOnly
-        className="input input-bordered w-full mb-3 bg-gray-100"
-      />
-      <select
-        {...register("area", { required: true })}
-        className="select select-bordered w-full mb-3"
-      >
-        <option value="">Select Area</option>
-        {locations.areas.map((area) => (
-          <option key={area} value={area}>
-            {area}
-          </option>
-        ))}
-      </select>
+     {/* Add District Selection */}
+                 
+                  <select
+                    {...register("district", { required: true })}
+                    className="select select-bordered w-full mb-3"
+                    onChange={handleDistrictChange}
+                    
+                  >
+                    <option value="">Select District</option>
+                    {districts.map((d, idx) => (
+                      <option key={idx} value={d.district}>
+                        {d.district}
+                      </option>
+                    ))}
+                  </select>
+
+                  
+                  <select
+                    {...register("upazila", { required: true })}
+                    className="select select-bordered w-full mb-3"
+                    disabled={!selectedDistrict}
+                  >
+                    <option value="">Select Upazila</option>
+                    {upazilas.map((u, idx) => (
+                      <option key={idx} value={u}>
+                        {u}
+                      </option>
+                    ))}
+                  </select>
 
       <input
         type="file"
