@@ -22,6 +22,7 @@ import AssignStaff from "../deshboard/admin/AssignStaff";
 import ViewAllIssues from "../deshboard/admin/ViewAllIssues";
 import MyIssue from "../deshboard/citizen/MyIssue";
 import Profile from "../deshboard/citizen/Profile";
+import DashboardHome from "../deshboard/DashboardHome/DashboardHome";
 
 const router = createBrowserRouter([
   {
@@ -81,7 +82,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        Component: () => <h1>Dashboard</h1>,
+        Component: DashboardHome,
       },
       
       {

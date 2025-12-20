@@ -7,7 +7,7 @@ import ThemeController from "../ui/ThemeController";
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const navigate = useNavigate();
-  console.log(user);
+  // console.log(user);
 
   const handleLogOut = () => {
     logOut()

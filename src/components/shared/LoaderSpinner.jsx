@@ -1,6 +1,6 @@
 import React from 'react';
 import { Wrench, Nut } from 'lucide-react';
-import './Loader.css';
+import '../../Loader.css';
 
 const LoaderSpinner = () => {
     return (

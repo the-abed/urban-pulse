@@ -44,14 +44,23 @@ const AuthProvider = ({ children }) => {
   }
 
   // Observe user state changes
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    if (currentUser) {
+      // Get the actual JWT string from Firebase
+      const token = await currentUser.getIdToken();
+      
+      // Attach the token string to the user object manually
+      currentUser.accessToken = token; 
+      
       setUser(currentUser);
-      setLoading(false);
-      // console.log(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
+    } else {
+      setUser(null);
+    }
+    setLoading(false);
+  });
+  return () => unsubscribe();
+}, []);
 
   const authInfo = {
     user,
