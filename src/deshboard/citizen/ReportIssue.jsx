@@ -1,14 +1,12 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useContext, useEffect, useState } from "react";
 import AuthContext from "../../contexts/AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const ReportIssue = () => {
-  const locations = useLoaderData(); // fetched from loader
-//   console.log(locations);
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
   const { register, handleSubmit, reset } = useForm();

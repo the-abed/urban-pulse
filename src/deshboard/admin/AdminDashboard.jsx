@@ -61,7 +61,7 @@ const AdminDashboard = () => {
         name: data.name,
         email: data.email,
         district: data.district,
-        upazila: data.upazila,
+        staffUpazila: data.upazila,
         password: data.password,
         photo: photoURL,
       };

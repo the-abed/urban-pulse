@@ -65,14 +65,6 @@ const router = createBrowserRouter([
             <ReportIssue />
           </PrivateRoute>
         ),
-        loader: async () => {
-          const response = await fetch("/locations.json");
-          const data = await response.json();
-          return {
-            city: data.division,
-            areas: data.districts[0].upazilas,
-          };
-        },
       },
     ],
   },
