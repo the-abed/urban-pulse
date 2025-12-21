@@ -23,6 +23,7 @@ import ViewAllIssues from "../deshboard/admin/ViewAllIssues";
 import MyIssue from "../deshboard/citizen/MyIssue";
 import Profile from "../deshboard/citizen/Profile";
 import DashboardHome from "../deshboard/DashboardHome/DashboardHome";
+import AddStaff from "../deshboard/admin/AddStaff";
 
 const router = createBrowserRouter([
   {
@@ -86,6 +87,12 @@ const router = createBrowserRouter([
         Component: PaymentCancelled
       },
       //Admin routes
+      {
+        path: "/dashboard/addstaff",
+        element: <AdminRoute>
+          <AddStaff></AddStaff>
+        </AdminRoute>
+      },
       {
         path: "/dashboard/manage-users",
         element: <PrivateRoute>

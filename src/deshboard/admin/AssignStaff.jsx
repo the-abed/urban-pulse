@@ -1,142 +1,137 @@
-import React, { useRef, useState } from 'react';
-import useAxiosSecure from '../../hooks/useAxiosSecure';
-import { QueryClient, useQuery } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import React, { useRef, useState } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { QueryClient, useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const AssignStaff = () => {
-    const [selectedIssue, setSelectedIssue] = useState(null);
-    const assignModalRef = useRef(null);
-    const axiosSecure = useAxiosSecure();
-const { data } = useQuery({
-  queryKey: ['issues', 'pending'],
-  queryFn: async () => {
-    const res = await axiosSecure.get('/issues', {
-      params: { status: 'pending' }
-    });
-    return res.data;
-  }
-});
-const issues = data?.issues || [];
+  const [selectedIssue, setSelectedIssue] = useState(null);
+  const assignModalRef = useRef(null);
+  const axiosSecure = useAxiosSecure();
+  const { data } = useQuery({
+    queryKey: ["issues", "pending"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/issues", {
+        params: { status: "pending" },
+      });
+      return res.data;
+    },
+  });
+  const issues = data?.issues || [];
 
-const { data: staffs = [] } = useQuery({
-  queryKey: ['staffs', selectedIssue?.staffUpazila],
-  enabled: !!selectedIssue,
-  queryFn: async () => {
-    const res = await axiosSecure.get('/staffs', {
-      params: {
-        upazila: selectedIssue?.staffUpazila
-      }
-    });
-    return res.data;
-  }
-});
-
+  const { data: staffs = [], refetch } = useQuery({
+    queryKey: ["staffs", selectedIssue?.staffUpazila],
+    enabled: !!selectedIssue,
+    queryFn: async () => {
+      const res = await axiosSecure.get("/staffs", {
+        params: {
+          upazila: selectedIssue?.staffUpazila,
+        },
+      });
+      return res.data;
+    },
+  });
 
   const openAssignRiderModal = (issue) => {
     setSelectedIssue(issue);
     assignModalRef.current.showModal();
   };
 
-const handleAssignStaff = async (issueId, staff) => {
-  if (!issueId) {
-    toast.error("Invalid Issue ID");
-    return;
-  }
-
-  try {
-    const payload = {
-      staffEmail: staff.email,
-      staffName: staff.name,
-    };
-
-    // Log the URL to verify it's correct
-    console.log(`Requesting: /issues/${issueId}/assign`);
-
-    const res = await axiosSecure.patch(
-      `/issues/${issueId}/assign`,
-      payload
-    );
-
-    if (res.data.modifiedCount > 0) {
-      toast.success(`Assigned to ${staff.name}`);
-      // Note: queryClient is usually lowercase in TanStack Query
-      QueryClient.invalidateQueries(['issues', 'pending']);
+  const handleAssignStaff = async (issueId, staff) => {
+    if (!issueId) {
+      toast.error("Invalid Issue ID");
+      return;
     }
-  } catch (error) {
-    console.error("Assign Error:", error.response);
-    const message = error?.response?.data?.message || "Check Network Tab for URL error";
-    toast.error(message);
-  }
-};
 
-    return (
-        <div className="p-6">
-  <h2 className="text-3xl font-bold mb-2">Assign Staff</h2>
-  <p className="text-gray-600 mb-6">
-    Pending Issues: {issues.length}
-  </p>
+    try {
+      const payload = {
+        staffEmail: staff.email,
+        staffName: staff.name,
+        status: "assigned",
+      };
 
-  <div className="overflow-x-auto bg-white rounded-xl shadow">
-    <table className="table w-full">
-      <thead className="bg-gray-100 text-gray-700">
-        <tr>
-          <th>Tracking ID</th>
-          <th>Issue</th>
-          <th>Category</th>
-          <th>Created At</th>
-          <th>Location</th>
-          <th>Upvotes</th>
-          <th>Action</th>
-        </tr>
-      </thead>
+      // Log the URL to verify it's correct
+      console.log(`Requesting: /issues/${issueId}/assign`);
 
-      <tbody>
-        {issues.map(issue => (
-          <tr key={issue._id} className="hover">
-            <td className="font-mono text-sm">
-              {issue.trackingId}
-            </td>
+      const res = await axiosSecure.patch(`/issues/${issueId}/assign`, payload);
 
-            <td>
-              <p className="font-semibold">{issue.title}</p>
-              <p className="text-sm text-gray-500">
-                by {issue.displayName}
-              </p>
-            </td>
+      if (res.data.modifiedCount > 0) {
+        toast.success(`Assigned to ${staff.name}`);
+        refetch();
+        // Note: queryClient is usually lowercase in TanStack Query
+        QueryClient.invalidateQueries(["issues", "pending"]);
+      }
+    } catch (error) {
+      console.error("Assign Error:", error.response);
+      const message =
+        error?.response?.data?.message || "Check Network Tab for URL error";
+      toast.error(message);
+    }
+  };
 
-            <td>
-              <span className="badge badge-info capitalize">
-                {issue.category}
-              </span>
-            </td>
-            <td>{issue.createdAt}</td>
+  return (
+    <div className="p-6">
+      <h2 className="text-3xl font-bold mb-2">Assign Staff</h2>
+      <p className="text-gray-600 mb-6">Pending Issues: {issues.length}</p>
 
-            <td>
-              {issue.district}, {issue.upazila}
-            </td>
+      <div className="overflow-x-auto bg-white rounded-xl shadow">
+        <table className="table w-full">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th>Tracking ID</th>
+              <th>Issue</th>
+              <th>Category</th>
+              <th>Created At</th>
+              <th>Location</th>
+              <th>Upvotes</th>
+              <th>Action</th>
+            </tr>
+          </thead>
 
-            <td>
-              <span className="badge badge-outline">
-                👍 {issue.upvotes}
-              </span>
-            </td>
+          <tbody>
+            {issues.map((issue) => (
+              <tr key={issue._id} className="hover">
+                <td className="font-mono text-sm">{issue.trackingId}</td>
 
-            <td>
-              <button 
-              onClick={() => openAssignRiderModal(issue)}
-              className="btn btn-sm btn-primary">
-                Find Staff
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+                <td>
+                  <p className="font-semibold">{issue.title}</p>
+                  <p className="text-sm text-gray-500">
+                    by {issue.displayName}
+                  </p>
+                </td>
 
+                <td>
+                  <span className="badge badge-info capitalize">
+                    {issue.category}
+                  </span>
+                </td>
+                <td>{issue.createdAt}</td>
 
-  {/* Assign Staff Modal */}
-   <dialog
+                <td>
+                  {issue.district}, {issue.upazila}
+                </td>
+
+                <td>
+                  <span className="badge badge-outline">
+                    👍 {issue.upvotes}
+                  </span>
+                </td>
+
+                <td>
+                  <button
+                    onClick={() => openAssignRiderModal(issue)}
+                    className="btn btn-sm btn-primary"
+                  >
+                    Find Staff
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Assign Staff Modal */}
+      <dialog
         ref={assignModalRef}
         className="modal modal-bottom sm:modal-middle"
       >
@@ -166,7 +161,9 @@ const handleAssignStaff = async (issueId, staff) => {
                     <td>{staff.status}</td>
                     <td>
                       <button
-                        onClick={() => handleAssignStaff(selectedIssue._id,staff)}
+                        onClick={() =>
+                          handleAssignStaff(selectedIssue._id, staff)
+                        }
                         className="btn btn-sm bg-primary text-black"
                       >
                         Assign
@@ -186,9 +183,8 @@ const handleAssignStaff = async (issueId, staff) => {
           </div>
         </div>
       </dialog>
-</div>
-
-    );
+    </div>
+  );
 };
 
 export default AssignStaff;

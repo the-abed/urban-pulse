@@ -16,8 +16,8 @@ const IssueCard = ({ issue }) => {
     title,
     category,
     boosted,
-    city,
-    area,
+    district,
+    upazila,
     photoUrl,
     status, // Added status for the badge requirement
     reporterEmail, // The issue object contains the reporter's email
@@ -116,7 +116,7 @@ const IssueCard = ({ issue }) => {
         {/* Location */}
         <p className="flex items-center gap-1 text-gray-600 text-sm">
           <MapPin size={14} className="text-primary" />
-          {area}, {city}
+          {district}, {upazila}
         </p>
 
         {/* Footer - Pushed to bottom */}

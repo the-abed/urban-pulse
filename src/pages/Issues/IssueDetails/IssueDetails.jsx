@@ -13,6 +13,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import useAuth from "../../../hooks/useAuth";
 import LoaderSpinner from "../../../components/shared/LoaderSpinner";
+import toast, { Toaster } from "react-hot-toast";
 
 const IssueDetails = () => {
   const { id } = useParams();
@@ -48,6 +49,11 @@ const IssueDetails = () => {
     upvoters = [],
     reporterEmail,
   } = issue;
+  const sortedTimeline = [...timeline].sort(
+    (a, b) => new Date(a.date) - new Date(b.date)
+  );
+
+
 
   const isOwner = user?.email === reporterEmail;
   const hasUpvoted = upvoters.includes(user?.email);
@@ -62,7 +68,7 @@ const IssueDetails = () => {
     },
 
     onError: (error) => {
-      alert(error?.response?.data?.message || "Upvote failed");
+      toast.error(error?.response?.data?.message || "Upvote failed");
     },
   });
 
@@ -101,6 +107,7 @@ const handleBoost = async (issue) => {
 
   return (
     <div className="space-y-10">
+      <Toaster position="top-center" reverseOrder={false}></Toaster>
       {/* ---------------- HEADER ---------------- */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* IMAGE */}
@@ -199,33 +206,61 @@ const handleBoost = async (issue) => {
               <strong>Name:</strong> {assignedStaff.name}
             </p>
             <p>
-              <strong>Role:</strong> {assignedStaff.role}
+              <strong>Email:</strong> {assignedStaff.email}
             </p>
             <p>
-              <strong>Phone:</strong> {assignedStaff.phone}
+              <strong>Assigned At:</strong> {assignedStaff.assignedAt}
             </p>
           </div>
         </div>
       )}
 
       {/* ---------------- TIMELINE ---------------- */}
-      <div className="card bg-base-100 shadow">
-        <div className="card-body">
-          <h3 className="text-lg font-semibold">Issue Timeline</h3>
+     <div className="card bg-base-100 shadow-md">
+      <div className="card-body">
+        <h2 className="card-title text-lg">Issue Timeline</h2>
 
-          <ul className="timeline timeline-vertical">
-            {timeline.map((item, index) => (
-              <li key={index}>
-                <div className="timeline-start text-xs opacity-70">
-                  {new Date(item.date).toLocaleDateString()}
-                </div>
-                <div className="timeline-middle bg-primary rounded-full" />
-                <div className="timeline-end text-sm">{item.label}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <ul className="timeline timeline-vertical">
+          {sortedTimeline.map((item, index) => (
+            <li key={index}>
+              {/* LEFT SIDE */}
+              <div className="timeline-start text-sm font-semibold capitalize">
+                {item.status}
+              </div>
+
+              {/* DOT */}
+              <div className="timeline-middle">
+                <div
+                  className={`w-3 h-3 rounded-full ${
+                    item.updatedBy === "Admin"
+                      ? "bg-primary"
+                      : "bg-secondary"
+                  }`}
+                ></div>
+              </div>
+
+              {/* RIGHT SIDE */}
+              <div className="timeline-end">
+                <p className="font-medium">{item.message}</p>
+
+                <p className="text-xs opacity-70 mt-1">
+                  {item.updatedBy}
+                  {item.reporterEmail
+                    ? ` • ${item.reporterEmail}`
+                    : ""}
+                </p>
+
+                <p className="text-xs opacity-50">
+                  {new Date(item.date).toLocaleString()}
+                </p>
+              </div>
+
+              {index !== sortedTimeline.length - 1 && <hr />}
+            </li>
+          ))}
+        </ul>
       </div>
+    </div>
     </div>
   );
 };
