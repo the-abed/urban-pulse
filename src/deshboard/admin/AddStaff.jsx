@@ -66,16 +66,14 @@ const AddStaff = () => {
         photo: photoURL,
       };
 
-    //   console.log("Staff data being sent:", staffData);
+      //   console.log("Staff data being sent:", staffData);
       const response = await axiosSecure.post("/staff", staffData);
-    //   console.log("Backend response:", response.data);
+      //   console.log("Backend response:", response.data);
       // Reset the form
       reset();
 
       if (response.data.insertedId) {
         toast.success("Staff added successfully!", { id: toastId });
-
-        document.getElementById("my_modal_5").close();
       }
     } catch (error) {
       // This will show "User already exists" or whatever message your backend sent
@@ -88,142 +86,118 @@ const AddStaff = () => {
     }
   };
   return (
-    <div>
+    <div className="my-10">
       <Toaster position="top-center" reverseOrder={false}></Toaster>
-      <h2 className="text-3xl font-bold">Admin Dashboard</h2>
+
       {/* Add Staff */}
+      <div className="card bg-base-100 mx-auto w-full max-w-sm shrink-0 shadow-2xl ">
+        <div className="card-body">
+          <h2 className="text-3xl font-bold text-secondary">
+            Create a staff account
+          </h2>
+          <p className="text-gray-600">register with UrbanPulse</p>
+          <form onSubmit={handleSubmit(handleRegister)}>
+            <fieldset className="fieldset">
+              {/* Name */}
+              <label className="label">Name</label>
+              <input
+                type="text"
+                {...register("name", { required: true })}
+                className="input"
+                placeholder="Your Name"
+              />
+              {errors.name?.type === "required" && (
+                <span className="text-red-500">Name is required</span>
+              )}
 
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <button
-        className="btn"
-        onClick={() => document.getElementById("my_modal_5").showModal()}
-      >
-        Add Staff
-      </button>
-      <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <div className="card bg-base-100 mx-auto w-full max-w-sm shrink-0 shadow-2xl ">
-            <div className="card-body">
-              <h2 className="text-3xl font-bold text-secondary">
-                Create an Account
-              </h2>
-              <p className="text-gray-600">register with UrbanPulse</p>
-              <form onSubmit={handleSubmit(handleRegister)}>
-                <fieldset className="fieldset">
-                  {/* Name */}
-                  <label className="label">Name</label>
-                  <input
-                    type="text"
-                    {...register("name", { required: true })}
-                    className="input"
-                    placeholder="Your Name"
-                  />
-                  {errors.name?.type === "required" && (
-                    <span className="text-red-500">Name is required</span>
-                  )}
+              {/* Photo */}
+              <label className="label">Photo</label>
+              <input
+                type="file"
+                {...register("photo", { required: true })}
+                className=" file-input "
+                placeholder="Your Photo"
+              />
 
-                  {/* Photo */}
-                  <label className="label">Photo</label>
-                  <input
-                    type="file"
-                    {...register("photo", { required: true })}
-                    className=" file-input "
-                    placeholder="Your Photo"
-                  />
+              {/* Email */}
+              <label className="label">Email</label>
+              <input
+                type="email"
+                {...register("email", { required: true })}
+                className="input"
+                placeholder="Email"
+              />
+              {errors.email?.type === "required" && (
+                <span className="text-red-500">Email is required</span>
+              )}
 
-                  {/* Email */}
-                  <label className="label">Email</label>
-                  <input
-                    type="email"
-                    {...register("email", { required: true })}
-                    className="input"
-                    placeholder="Email"
-                  />
-                  {errors.email?.type === "required" && (
-                    <span className="text-red-500">Email is required</span>
-                  )}
+              {/* Add District Selection */}
+              <label className="label">District</label>
+              <select
+                {...register("district", { required: true })}
+                className="select select-bordered"
+                onChange={handleDistrictChange}
+              >
+                <option value="">Select District</option>
+                {districts.map((d, idx) => (
+                  <option key={idx} value={d.district}>
+                    {d.district}
+                  </option>
+                ))}
+              </select>
 
-                  {/* Add District Selection */}
-                  <label className="label">District</label>
-                  <select
-                    {...register("district", { required: true })}
-                    className="select select-bordered"
-                    onChange={handleDistrictChange}
-                  >
-                    <option value="">Select District</option>
-                    {districts.map((d, idx) => (
-                      <option key={idx} value={d.district}>
-                        {d.district}
-                      </option>
-                    ))}
-                  </select>
+              <label className="label">Upazila</label>
+              <select
+                {...register("upazila", { required: true })}
+                className="select select-bordered"
+                disabled={!selectedDistrict}
+              >
+                <option value="">Select Upazila</option>
+                {upazilas.map((u, idx) => (
+                  <option key={idx} value={u}>
+                    {u}
+                  </option>
+                ))}
+              </select>
 
-                  <label className="label">Upazila</label>
-                  <select
-                    {...register("upazila", { required: true })}
-                    className="select select-bordered"
-                    disabled={!selectedDistrict}
-                  >
-                    <option value="">Select Upazila</option>
-                    {upazilas.map((u, idx) => (
-                      <option key={idx} value={u}>
-                        {u}
-                      </option>
-                    ))}
-                  </select>
+              {/* Password */}
+              <label className="label">Password</label>
+              <input
+                type="password"
+                {...register("password", {
+                  required: true,
+                  minLength: 6,
+                  pattern:
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+                })}
+                className="input"
+                placeholder="Password"
+              />
+              {errors.password?.type === "required" && (
+                <span className="text-red-500">Password is required</span>
+              )}
+              {errors.password?.type === "minLength" && (
+                <span className="text-red-500">
+                  Password must be at least 6 characters
+                </span>
+              )}
+              {errors.password?.type === "pattern" && (
+                <span className="text-red-500">
+                  Password must contain only letters and numbers
+                </span>
+              )}
 
-                  {/* Password */}
-                  <label className="label">Password</label>
-                  <input
-                    type="password"
-                    {...register("password", {
-                      required: true,
-                      minLength: 6,
-                      pattern:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                    })}
-                    className="input"
-                    placeholder="Password"
-                  />
-                  {errors.password?.type === "required" && (
-                    <span className="text-red-500">Password is required</span>
-                  )}
-                  {errors.password?.type === "minLength" && (
-                    <span className="text-red-500">
-                      Password must be at least 6 characters
-                    </span>
-                  )}
-                  {errors.password?.type === "pattern" && (
-                    <span className="text-red-500">
-                      Password must contain only letters and numbers
-                    </span>
-                  )}
-                  <div>
-                    <a className="link link-hover">Forgot password?</a>
-                  </div>
-                  <button
-                    disabled={isSubmitting}
-                    className="btn btn-neutral mt-4"
-                  >
-                    {isSubmitting ? (
-                      <span className="loading loading-spinner"></span>
-                    ) : (
-                      "Register"
-                    )}
-                  </button>
-                </fieldset>
-              </form>
-            </div>
-          </div>
-
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
+              <button disabled={isSubmitting} className="btn btn-neutral mt-4">
+                {isSubmitting ? (
+                  <span className="loading loading-spinner"></span>
+                ) : (
+                  "Register"
+                )}
+              </button>
+            </fieldset>
+          </form>
         </div>
-      </dialog>
+      </div>
     </div>
   );
 };

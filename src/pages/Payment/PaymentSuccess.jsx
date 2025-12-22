@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useSearchParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
 
 const PaymentSuccess = () => {
   const [paymentInfo, setPaymentInfo] = useState(null);
   const axiosSecure = useAxiosSecure();
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
+
+  
+
 
   useEffect(() => {
     if (!sessionId) return;
@@ -29,11 +33,14 @@ const PaymentSuccess = () => {
       });
   }, [sessionId, axiosSecure]);
 
+
+
   return (
     <div>
       <h2 className="text-3xl">Payment Success</h2>
       <p>Transaction ID: {paymentInfo?.transactionId}</p>
       <p>Tracking ID: {paymentInfo?.trackingId}</p>
+
     </div>
   );
 };

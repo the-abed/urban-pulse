@@ -9,6 +9,7 @@ import {
   MdOutlineAllInbox,
   MdOutlineDirectionsBike,
   MdOutlineManageAccounts,
+  MdOutlinePayment,
 } from "react-icons/md";
 import UrbanPulseLogo from "../components/shared/UrbanPulseLogo";
 import useRole from "../hooks/useRole";
@@ -91,17 +92,7 @@ const DashboardLayout = () => {
               {/* Admin only links */}
               {role === "admin" && (
                 <>
-                {/* Assign Staff */}
-                <li>
-                  <NavLink
-                    to="assign-staff"
-                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="Assign Staff"
-                  >
-                    <MdAssignmentInd className="inline-block size-4.5" />
-                    <span className="is-drawer-close:hidden">Assign Staff</span>
-                  </NavLink>
-                </li>
+               
                   <li>
                     <NavLink
                       to="manage-users"
@@ -136,6 +127,19 @@ const DashboardLayout = () => {
                       <MdOutlineManageAccounts className="inline-block size-4.5" />
                       <span className="is-drawer-close:hidden">
                         Manage Staff
+                      </span>
+                    </NavLink>
+                  </li>
+                  {/* Payments page */}
+                  <li>
+                    <NavLink
+                      to="/dashboard/payments"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Payments"
+                    >
+                      <MdOutlinePayment className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">
+                        Payments
                       </span>
                     </NavLink>
                   </li>

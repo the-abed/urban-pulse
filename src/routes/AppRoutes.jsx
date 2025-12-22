@@ -24,6 +24,7 @@ import MyIssue from "../deshboard/citizen/MyIssue";
 import Profile from "../deshboard/citizen/Profile";
 import DashboardHome from "../deshboard/DashboardHome/DashboardHome";
 import AddStaff from "../deshboard/admin/AddStaff";
+import Payments from "../deshboard/admin/Payments";
 
 const router = createBrowserRouter([
   {
@@ -121,6 +122,12 @@ const router = createBrowserRouter([
             <ViewAllIssues></ViewAllIssues>
           </AdminRoute>
         
+      },
+      {
+        path: "/dashboard/payments",
+        element: <AdminRoute>
+          <Payments></Payments>
+        </AdminRoute>
       },
       // staff routes
       {

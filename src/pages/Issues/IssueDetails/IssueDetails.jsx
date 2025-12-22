@@ -96,7 +96,7 @@ const handleBoost = async (issue) => {
     amount: 100,
     issueTitle: issue.title,
     trackingId: issue.trackingId,
-    reporterEmail: issue.reporterEmail,  // Rename from issueReporterEmail
+    reporterEmail: issue.email,  // Rename from issueReporterEmail
   };
   const res = await axiosSecure.post("/create-checkout-session", boostInfo);
   console.log(res.data);
