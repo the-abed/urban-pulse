@@ -77,62 +77,99 @@ const AssignedIssues = () => {
   if (isLoading) return <div className="p-6">Loading assigned issues...</div>;
 
   return (
-    <div className="p-6">
-      <h2 className="text-3xl font-bold mb-6">
-        Assigned Issues: {issues.length}
+   <div className="p-6 bg-base-50 min-h-screen">
+  {/* Header Section */}
+  <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4 bg-white p-6 rounded-2xl shadow-sm border border-base-200">
+    <div>
+      <h2 className="text-3xl font-extrabold tracking-tight text-base-content">
+        Assigned Issues
       </h2>
+      <p className="text-base-content/60 mt-1 font-medium">
+        Manage and track your active technical assignments
+      </p>
+    </div>
+    <div className="stats shadow bg-primary text-primary-content">
+      <div className="stat py-2 px-6">
+        <div className="stat-title text-primary-content/70 text-xs font-bold uppercase">Total Tasks</div>
+        <div className="stat-value text-2xl">{issues.length}</div>
+      </div>
+    </div>
+  </div>
 
-      <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Title</th>
-              <th>Priority</th>
-              <th>Status</th>
-              <th>Assigned At</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+  {/* Table Container */}
+  <div className="bg-white rounded-2xl shadow-sm border border-base-200 overflow-hidden">
+    <div className="overflow-x-auto">
+      <table className="table w-full border-separate border-spacing-0">
+        <thead className="bg-base-100/50">
+          <tr>
+            <th className="py-4 px-6 text-xs font-bold uppercase text-base-content/50">Issue Details</th>
+            <th className="py-4 px-6 text-xs font-bold uppercase text-base-content/50">Priority</th>
+            <th className="py-4 px-6 text-xs font-bold uppercase text-base-content/50">Status</th>
+            <th className="py-4 px-6 text-xs font-bold uppercase text-base-content/50">Assigned Time</th>
+            <th className="py-4 px-6 text-xs font-bold uppercase text-base-content/50 text-right">Operations</th>
+          </tr>
+        </thead>
 
-          <tbody>
-            {sortedIssues.map((issue, index) => {
-              const currentStatus = issue.status || "assigned"; // fallback
-              const nextStatuses = STATUS_FLOW[currentStatus] || [];
+        <tbody className="divide-y divide-base-200">
+          {sortedIssues.map((issue, index) => {
+            const currentStatus = issue.status || "assigned";
+            const nextStatuses = STATUS_FLOW[currentStatus] || [];
+            const isBoosted = issue.priority === "boosted";
 
-              return (
-                <tr
-                  key={issue._id}
-                  className={issue.priority === "boosted" ? "bg-orange-50" : ""}
-                >
-                  <td>{index + 1}</td>
-                  <td className="font-medium">{issue.title}</td>
-                  <td>
-                    {issue.priority === "boosted" ? (
-                      <span className="text-orange-600 font-bold">🔥 Boosted</span>
-                    ) : (
-                      "Normal"
-                    )}
-                  </td>
+            return (
+              <tr 
+                key={issue._id} 
+                className={`group transition-colors hover:bg-base-50/80 ${isBoosted ? "bg-orange-50/30" : ""}`}
+              >
+                {/* Title & Index */}
+                <td className="py-4 px-6">
+                  <div className="flex items-center gap-4">
+                    <span className="text-xs font-mono text-base-content/30">{String(index + 1).padStart(2, '0')}</span>
+                    <div className="font-bold text-base-content group-hover:text-primary transition-colors">
+                      {issue.title}
+                    </div>
+                  </div>
+                </td>
 
-                  <td>
-                    <span className={statusBadge(currentStatus)}>
-                      {currentStatus.replace("_", " ")}
-                    </span>
-                  </td>
+                {/* Priority */}
+                <td className="py-4 px-6">
+                  {isBoosted ? (
+                    <div className="flex items-center gap-1.5 text-orange-600 font-bold text-xs uppercase tracking-wider">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                      </span>
+                      🔥 Boosted
+                    </div>
+                  ) : (
+                    <span className="text-base-content/50 text-xs font-medium uppercase tracking-widest">Normal</span>
+                  )}
+                </td>
 
-                  <td>
+                {/* Status Badge */}
+                <td className="py-4 px-6">
+                  <div className={`badge badge-md gap-2 font-bold border-none capitalize ${statusBadge(currentStatus)}`}>
+                    {currentStatus.replace("_", " ")}
+                  </div>
+                </td>
+
+                {/* Date */}
+                <td className="py-4 px-6">
+                  <div className="text-sm text-base-content/70">
                     {issue.assignedStaff?.assignedAt
-                      ? new Date(issue.assignedStaff.assignedAt).toLocaleString()
-                      : "Not assigned"}
-                  </td>
+                      ? new Date(issue.assignedStaff.assignedAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
+                      : "—"}
+                  </div>
+                </td>
 
-                  <td className="flex gap-2">
+                {/* Actions */}
+                <td className="py-4 px-6">
+                  <div className="flex justify-end gap-2">
                     {nextStatuses.length > 0 ? (
                       nextStatuses.map((status) => (
                         <button
                           key={status}
-                          className="btn btn-sm btn-primary"
+                          className="btn btn-sm btn-primary btn-outline hover:btn-active normal-case shadow-sm border-2"
                           onClick={() =>
                             statusMutation.mutate({
                               issueId: issue._id,
@@ -140,20 +177,22 @@ const AssignedIssues = () => {
                             })
                           }
                         >
-                          {status.replace("_", " ")}
+                          Mark as {status.replace("_", " ")}
                         </button>
                       ))
                     ) : (
-                      <span className="text-gray-400">No Action</span>
+                      <span className="badge badge-ghost badge-sm opacity-50 italic">Workflow Complete</span>
                     )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
+  </div>
+</div>
   );
 };
 

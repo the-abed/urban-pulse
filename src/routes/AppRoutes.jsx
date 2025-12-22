@@ -25,6 +25,7 @@ import DashboardHome from "../deshboard/DashboardHome/DashboardHome";
 import AddStaff from "../deshboard/admin/AddStaff";
 import Payments from "../deshboard/admin/Payments";
 import Profile from "../pages/Profile/Profile";
+import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ const router = createBrowserRouter([
       {
         path: "/contact",
         Component: Contact,
+      },
+      {
+        path: '/terms-and-conditions',
+        Component: TermsAndConditions
       },
       
       {
