@@ -1,59 +1,105 @@
 import React from 'react';
 import UrbanPulseLogo from '../shared/UrbanPulseLogo';
+import { FaFacebook, FaLinkedin, FaGithub, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
-    return (
-        <div>
-          <footer className="footer footer-horizontal footer-center   p-10 text-base-100 bg-black">
-  <aside>
-    <UrbanPulseLogo></UrbanPulseLogo>
-    <p className="font-bold">
-      ACME Industries Ltd.
-      <br />
-      Providing reliable tech since 1992
-    </p>
-    <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
-  </aside>
-  <nav>
-    <div className="grid grid-flow-col gap-4">
-      <a>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          className="fill-current">
-          <path
-            d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"></path>
-        </svg>
-      </a>
-      <a>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          className="fill-current">
-          <path
-            d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"></path>
-        </svg>
-      </a>
-      <a>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          className="fill-current">
-          <path
-            d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"></path>
-        </svg>
-      </a>
-    </div>
-  </nav>
-</footer>
+  const currentYear = new Date().getFullYear();
+
+  const socialLinks = [
+    { icon: <FaFacebook />, url: "https://www.facebook.com/mdabed.azim", label: "Facebook" },
+    { icon: <FaLinkedin />, url: "https://www.linkedin.com/in/mohammad-abed-azim/", label: "LinkedIn" },
+    { icon: <FaGithub />, url: "https://github.com/the-abed", label: "GitHub" },
+  ];
+
+  return (
+    <footer className="bg-neutral text-neutral-content">
+      {/* Main Footer Content */}
+      <div className="container mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          
+          {/* Brand Column */}
+          <div className="space-y-6">
+            <UrbanPulseLogo />
+            <p className="text-sm leading-relaxed opacity-80">
+              Empowering citizens to build smarter cities. Report infrastructure issues 
+              instantly and track progress in real-time. Together for a better tomorrow.
+            </p>
+            <div className="flex gap-4">
+              {socialLinks.map((social, index) => (
+                <a 
+                  key={index} 
+                  href={social.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-xl hover:bg-primary hover:text-white transition-all duration-300"
+                  aria-label={social.label}
+                >
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Quick Links Column */}
+          <div>
+            <h3 className="text-white font-bold text-lg mb-6 uppercase tracking-wider">Quick Links</h3>
+            <ul className="space-y-4">
+              <li><Link to="/" className="text-sm opacity-70 hover:opacity-100 hover:text-secondary transition-colors">Home</Link></li>
+              <li><Link to="/issues" className="text-sm opacity-70 hover:opacity-100 hover:text-secondary transition-colors">All Issues</Link></li>
+              <li><Link to="/about" className="text-sm opacity-70 hover:opacity-100 hover:text-secondary transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="text-sm opacity-70 hover:opacity-100 hover:text-secondary transition-colors">Contact</Link></li>
+            </ul>
+          </div>
+
+          {/* Support Column */}
+          <div>
+            <h3 className="text-white font-bold text-lg mb-6 uppercase tracking-wider">Legal & Help</h3>
+            <ul className="space-y-4">
+              <li><Link to="/terms" className="text-sm opacity-70 hover:opacity-100 hover:text-secondary transition-colors">Terms & Conditions</Link></li>
+              <li><Link to="/privacy" className="text-sm opacity-70 hover:opacity-100 hover:text-secondary transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/faq" className="text-sm opacity-70 hover:opacity-100 hover:text-secondary transition-colors">FAQs</Link></li>
+              <li><Link to="/dashboard" className="text-sm opacity-70 hover:opacity-100 hover:text-secondary transition-colors">User Dashboard</Link></li>
+            </ul>
+          </div>
+
+          {/* Contact Column */}
+          <div>
+            <h3 className="text-white font-bold text-lg mb-6 uppercase tracking-wider">Contact Us</h3>
+            <ul className="space-y-4">
+              <li className="flex items-start gap-3 text-sm opacity-70">
+                <FaMapMarkerAlt className="mt-1 text-secondary" />
+                <span>Chattogram, Bangladesh</span>
+              </li>
+              <li className="flex items-center gap-3 text-sm opacity-70">
+                <FaEnvelope className="text-secondary" />
+                <span>support@urbanpulse.gov</span>
+              </li>
+              <li className="mt-6">
+                <div className="p-4 bg-primary/5 rounded-2xl border border-primary/20">
+                  <p className="text-xs font-bold text-primary italic">Emergency Service</p>
+                  <p className="text-sm font-black text-white mt-1">Call: 165 (Local Authority)</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
         </div>
-    );
+      </div>
+
+      {/* Bottom Copyright Bar */}
+      <div className="border-t border-white/5 py-8 bg-black/20">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-xs opacity-50">
+            © {currentYear} <span className="text-primary font-bold tracking-tight">UrbanPulse</span>. All rights reserved.
+          </p>
+          <p className="text-xs opacity-50 flex items-center gap-1">
+            Developed with <span className="text-secondary">❤️</span> by Mohammad Abed Azim
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
 };
 
 export default Footer;

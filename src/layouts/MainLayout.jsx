@@ -25,7 +25,7 @@ const MainLayout = () => {
             {/* 4. Footer Area */}
             <footer className="">
                 {/* Apply padding and center content */}
-                <div className=" mx-auto py-6 text-center text-sm">
+                <div className=" mx-auto text-center text-sm">
                     <Footer />
                 </div>
             </footer>

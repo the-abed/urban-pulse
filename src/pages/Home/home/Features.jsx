@@ -50,7 +50,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section className="py-24 bg-base-200 overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Header Section */}
         <div className="text-center max-w-3xl mx-auto mb-16">

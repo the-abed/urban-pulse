@@ -82,7 +82,7 @@ const Navbar = () => {
 
         {/* Navbar End: User Profile / Auth Actions */}
         <div className="navbar-end gap-3">
-          <ThemeController />
+          {/* <ThemeController /> */}
           
           {user ? (
             <div className="dropdown dropdown-end">

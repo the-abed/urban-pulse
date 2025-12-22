@@ -8,6 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-fade";
+import { Link } from "react-router";
 
 const Banner = () => {
   const slides = [
@@ -88,12 +89,19 @@ const Banner = () => {
                   </p>
 
                   <div className="flex flex-wrap gap-4">
+                    <Link to="/reportIssue">
+                    
                     <button className="btn btn-primary btn-lg rounded-full px-8 shadow-xl hover:scale-105 transition-transform">
                       Report an Issue
                     </button>
+                    </Link>
+
+                    <Link to="/issues">
+
                     <button className="btn btn-outline btn-secondary btn-lg rounded-full px-8 text-white hover:bg-secondary">
                       View All Reports
                     </button>
+                    </Link>
                   </div>
                 </motion.div>
               </div>

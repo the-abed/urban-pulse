@@ -1,10 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { MapPin } from "lucide-react";
+import { MapPin, ArrowRight, ThumbsUp } from "lucide-react";
 import { useState } from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import toast, { Toaster } from "react-hot-toast";
-import { SlLike } from "react-icons/sl";
 
 const IssueCard = ({ issue }) => {
   const { user } = useAuth();
@@ -19,49 +18,35 @@ const IssueCard = ({ issue }) => {
     district,
     upazila,
     photoUrl,
-    status, // Added status for the badge requirement
-    reporterEmail, // The issue object contains the reporter's email
+    status,
+    reporterEmail,
     upvotes = 0,
-    upvotedBy = [], // Assuming the backend returns an array of user emails/IDs
+    upvotedBy = [],
   } = issue;
 
-  // Local state for instant UI update
   const [voteCount, setVoteCount] = useState(upvotes);
-  // Check if current user has already upvoted based on the upvotedBy array
   const [hasUpvoted, setHasUpvoted] = useState(upvotedBy.includes(user?.email));
   const [loading, setLoading] = useState(false);
 
   const handleUpvote = async () => {
-    // 1. Requirement: If not logged in, redirect to login
     if (!user) {
       toast.error("Please login to upvote");
       return navigate("/login");
     }
-
-    // 2. Requirement: Users cannot upvote their own issue
     if (user?.email === reporterEmail) {
       return toast.error("You cannot upvote your own issue");
     }
-
-    // 3. Prevent multiple clicks or double upvoting
     if (hasUpvoted || loading) return;
 
-    // --- OPTIMISTIC UI UPDATE ---
     setVoteCount((prev) => prev + 1);
     setHasUpvoted(true);
 
     try {
       setLoading(true);
-      // 4. Requirement: Increase upvote count in DB
-      await axiosSecure.patch(`/issue/${_id}/upvote`, {
-        userEmail: user.email,
-      });
-      toast.success("Upvoted successfully!");
+      await axiosSecure.patch(`/issue/${_id}/upvote`, { userEmail: user.email });
     } catch (error) {
-      // 5. Rollback UI if the server request fails
       setVoteCount((prev) => prev - 1);
       setHasUpvoted(false);
-      console.error("Upvote failed", error);
       toast.error(error.response?.data?.message || "Failed to upvote");
     } finally {
       setLoading(false);
@@ -69,82 +54,81 @@ const IssueCard = ({ issue }) => {
   };
 
   return (
-    <div className="bg-base-100 shadow-md rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col h-full">
+    <div className="group bg-white rounded-[2rem] overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border border-gray-100 flex flex-col h-full relative">
       <Toaster position="top-center" />
 
-      {/* Image */}
-      <div className="h-48 w-full overflow-hidden relative">
+      {/* Image Container */}
+      <div className="h-56 w-full overflow-hidden relative">
         <img
           src={photoUrl}
           alt={title}
-          className="h-full w-full object-cover hover:scale-105 transition-all duration-300"
+          className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
-        {/* Status Badge - Top Right */}
-        <div className="absolute top-2 right-2">
-          <span
-            className={`badge ${
-              status === "resolved" ? "badge-success" : "badge-warning"
-            } text-white border-none shadow-sm`}
-          >
-            {status}
-          </span>
+        
+        {/* Status Overlay - Glassmorphism */}
+        <div className="absolute top-4 left-4">
+          <div className={`backdrop-blur-md bg-white/70 px-4 py-1.5 rounded-full border border-white/50 shadow-sm`}>
+            <span className={`text-[10px] font-black uppercase tracking-widest ${
+                status === "resolved" ? "text-success" : "text-orange-600"
+              }`}>
+              ● {status}
+            </span>
+          </div>
         </div>
+
+        {/* Priority Indicator */}
+        {boosted && (
+          <div className="absolute top-4 right-4 animate-pulse">
+             <span className="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg uppercase tracking-tighter">
+               🔥 Boosted
+             </span>
+          </div>
+        )}
       </div>
 
-      {/* Content */}
-      <div className="p-4 flex flex-col flex-grow space-y-3">
-        {/* Title */}
-        <h2 className="text-lg font-bold text-gray-800 line-clamp-1">
+      {/* Body Content */}
+      <div className="p-6 flex flex-col flex-grow">
+        <div className="flex justify-between items-start mb-3">
+          <span className="text-[10px] font-bold text-primary bg-primary/5 px-3 py-1 rounded-md uppercase tracking-widest">
+            {category}
+          </span>
+        </div>
+
+        <h2 className="text-xl font-extrabold text-gray-900 leading-tight mb-2 group-hover:text-primary transition-colors line-clamp-2">
           {title}
         </h2>
 
-        {/* Category & Priority Badges */}
-        <div className="flex flex-wrap gap-2">
-          <span className="badge badge-secondary badge-outline text-xs capitalize">
-            {category}
-          </span>
-
-          <span
-            className={`badge text-xs capitalize text-white border-none ${
-              boosted ? "bg-primary" : "bg-secondary"
-            }`}
-          >
-            {boosted ? "High Priority" : "Normal Priority"}
-          </span>
-        </div>
-
-        {/* Location */}
-        <p className="flex items-center gap-1 text-gray-600 text-sm">
-          <MapPin size={14} className="text-primary" />
-          {district}, {upazila}
+        <p className="flex items-center gap-1.5 text-gray-500 text-sm font-medium mb-6">
+          <MapPin size={14} className="text-secondary" />
+          {upazila}, {district}
         </p>
 
-        {/* Footer - Pushed to bottom */}
-        <div className="mt-auto pt-4 flex justify-between items-center border-t border-gray-100">
-          {/* Upvote Button */}
+        {/* Action Footer */}
+        <div className="mt-auto pt-6 flex items-center justify-between border-t border-gray-50">
+          
+          {/* Elegant Upvote */}
           <button
             onClick={handleUpvote}
             disabled={hasUpvoted || user?.email === reporterEmail}
-            className={`flex items-center gap-2 px-3 py-1 rounded-lg transition-all
-              ${
-                hasUpvoted
-                  ? "bg-primary/10 text-primary font-bold"
-                  : "hover:bg-gray-100 text-gray-600"
-              } 
-              ${
-                user?.email === reporterEmail && "opacity-50 cursor-not-allowed"
-              }
-            `}
+            className={`flex items-center gap-2.5 transition-all duration-300 ${
+              hasUpvoted 
+                ? "text-primary scale-110" 
+                : "text-gray-400 hover:text-primary"
+            } ${user?.email === reporterEmail ? "opacity-30 cursor-not-allowed" : "cursor-pointer"}`}
           >
-            <SlLike className={hasUpvoted ? "fill-current" : ""} />
-            <span className="text-sm">{voteCount}</span>
+            <div className={`p-2 rounded-full transition-colors ${hasUpvoted ? "bg-primary/10" : "bg-gray-50"}`}>
+              <ThumbsUp size={18} fill={hasUpvoted ? "currentColor" : "none"} />
+            </div>
+            <span className="text-sm font-bold">{voteCount}</span>
           </button>
 
-          {/* Details Button */}
-          <Link to={`/issue-details/${_id}`}>
-            <button className="btn btn-primary btn-sm rounded-lg px-4 normal-case">
-              View Details
-            </button>
+          {/* Details Link */}
+          <Link 
+            to={`/issue-details/${_id}`}
+            className="group/btn flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-primary transition-colors"
+          >
+            View Details 
+            <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>
