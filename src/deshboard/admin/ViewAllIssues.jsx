@@ -51,7 +51,7 @@ const ViewAllIssues = () => {
       };
 
       // Log the URL to verify it's correct
-      console.log(`Requesting: /issues/${issueId}/assign`);
+    //   console.log(`Requesting: /issues/${issueId}/assign`);
 
       const res = await axiosSecure.patch(`/issues/${issueId}/assign`, payload);
 

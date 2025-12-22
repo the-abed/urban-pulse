@@ -10,6 +10,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from "recharts";
+import LoaderSpinner from "../../components/shared/LoaderSpinner";
 
 const StaffDashboard = () => {
     const axiosSecure = useAxiosSecure();
@@ -21,7 +22,7 @@ const StaffDashboard = () => {
         }
     });
 
-    if (isLoading) return <div className="h-96 flex items-center justify-center"><span className="loading loading-bars loading-lg text-primary"></span></div>;
+    if (isLoading) return <LoaderSpinner></LoaderSpinner>;
 
     return (
         <div className="p-6 space-y-8">

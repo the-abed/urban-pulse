@@ -6,6 +6,7 @@ import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
+import LoaderSpinner from '../../components/shared/LoaderSpinner';
 
 const MyIssues = () => {
     const { user } = useAuth();
@@ -86,7 +87,7 @@ const updateMutation = useMutation({
         });
     };
 
-    if (isLoading) return <div className="text-center p-10"><span className="loading loading-dots loading-lg"></span></div>;
+    if (isLoading) return <LoaderSpinner></LoaderSpinner>;
 
     return (
         <div className="p-6">

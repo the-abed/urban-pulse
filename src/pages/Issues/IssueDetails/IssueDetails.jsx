@@ -99,7 +99,7 @@ const handleBoost = async (issue) => {
     reporterEmail: issue.email,  // Rename from issueReporterEmail
   };
   const res = await axiosSecure.post("/create-checkout-session", boostInfo);
-  console.log(res.data);
+  // console.log(res.data);
   window.location.assign(res.data.url);
 };
 //4242

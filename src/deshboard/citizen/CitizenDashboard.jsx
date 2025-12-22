@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+import LoaderSpinner from '../../components/shared/LoaderSpinner';
 
 const CitizenDashboard = () => {
     const axiosSecure = useAxiosSecure();
@@ -13,7 +14,7 @@ const CitizenDashboard = () => {
         }
     });
 
-    if (isLoading) return <span className="loading loading-lg"></span>;
+    if (isLoading) return <LoaderSpinner></LoaderSpinner>;
 
     // Data for the Pie Chart
     const chartData = [

@@ -3,6 +3,7 @@ import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import LoaderSpinner from "../../components/shared/LoaderSpinner";
 
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
@@ -54,9 +55,7 @@ const ManageUsers = () => {
 
   if (isLoading)
     return (
-      <div className="p-10 text-center">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
+     <LoaderSpinner></LoaderSpinner>
     );
 
   return (

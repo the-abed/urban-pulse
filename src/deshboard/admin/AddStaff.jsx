@@ -80,7 +80,7 @@ const AddStaff = () => {
       const errorMessage =
         error.response?.data?.message || "Something went wrong";
       toast.error(errorMessage);
-      console.log("Backend Error Details:", error.response?.data);
+      // console.log("Backend Error Details:", error.response?.data);
     } finally {
       setIsSubmitting(false);
     }

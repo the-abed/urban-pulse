@@ -57,7 +57,7 @@ const AdminDashboard = () => {
 
   const totalRevenue = data?.payments?.summary?.totalRevenue || 0;
   const totalPayments = data?.payments?.summary?.totalPayments || 0;
-  console.log("Payments Per Day:", data.payments.perDay);
+  // console.log("Payments Per Day:", data.payments.perDay);
 
   const paymentsPerDay = data?.payments?.perDay || [];
 

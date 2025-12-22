@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { toast } from "react-hot-toast";
+import LoaderSpinner from "../../components/shared/LoaderSpinner";
 
 /* -----------------------------
    Status flow rules
@@ -74,7 +75,7 @@ const AssignedIssues = () => {
     });
   }, [issues]);
 
-  if (isLoading) return <div className="p-6">Loading assigned issues...</div>;
+  if (isLoading) return <LoaderSpinner></LoaderSpinner>;
 
   return (
    <div className="p-6 bg-base-50 min-h-screen">
