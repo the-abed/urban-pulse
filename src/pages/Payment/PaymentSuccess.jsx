@@ -9,9 +9,6 @@ const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
 
-  
-
-
   useEffect(() => {
     if (!sessionId) return;
 
@@ -22,8 +19,13 @@ const PaymentSuccess = () => {
           setPaymentInfo({
             transactionId: res.data.transactionId,
             trackingId: res.data.trackingId,
+            reporterEmail: res.data.reporterEmail,
+            issueName: res.data.issueName,
+            currency: res.data.currency,
+            paidAt: res.data.paidAt,
           });
         }
+        console.log("Payment Success:", res.data);
       })
       .catch((err) => {
         console.error(
@@ -33,14 +35,13 @@ const PaymentSuccess = () => {
       });
   }, [sessionId, axiosSecure]);
 
-
-
   return (
     <div>
       <h2 className="text-3xl">Payment Success</h2>
       <p>Transaction ID: {paymentInfo?.transactionId}</p>
       <p>Tracking ID: {paymentInfo?.trackingId}</p>
-
+      <p>Reporter Email: {paymentInfo?.reporterEmail}</p>
+      <p>Issue Name: {paymentInfo?.issueName}</p>
     </div>
   );
 };

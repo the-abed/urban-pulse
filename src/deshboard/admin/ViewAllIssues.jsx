@@ -1,12 +1,13 @@
 import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
-import { QueryClient, useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const ViewAllIssues = () => {
   const [selectedIssue, setSelectedIssue] = useState(null);
   const assignModalRef = useRef(null);
   const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
   const { data } = useQuery({
     queryKey: ["issues", "pending"],
     queryFn: async () => {
@@ -55,10 +56,11 @@ const ViewAllIssues = () => {
       const res = await axiosSecure.patch(`/issues/${issueId}/assign`, payload);
 
       if (res.data.modifiedCount > 0) {
+        refetch();
         toast.success(`Assigned to ${staff.name}`);
         refetch();
         // Note: queryClient is usually lowercase in TanStack Query
-        QueryClient.invalidateQueries(["issues", "pending"]);
+      queryClient.invalidateQueries(["issues", "pending"]);
       }
     } catch (error) {
       console.error("Assign Error:", error.response);
@@ -72,9 +74,10 @@ const ViewAllIssues = () => {
     try {
       const res = await axiosSecure.patch(`/admin/issues/${issueId}/reject`);
       if (res.data.deletedCount > 0) {
+        refetch();
         toast.success("Issue deleted successfully");
         // Note: queryClient is usually lowercase in TanStack Query
-        QueryClient.invalidateQueries(["issues", "pending"]);
+        queryClient.invalidateQueries(["issues", "pending"]);
       }
     } catch (error) {
       console.error("Delete Error:", error.response);

@@ -13,10 +13,12 @@ import {
 } from "react-icons/md";
 import UrbanPulseLogo from "../components/shared/UrbanPulseLogo";
 import useRole from "../hooks/useRole";
+import useAuth from "../hooks/useAuth";
 
 
 const DashboardLayout = () => {
   const {role} = useRole();
+  const {user} = useAuth();
 
   return (
     <div>
@@ -150,18 +152,7 @@ const DashboardLayout = () => {
               {
                 role === "citizen" && (
                   <>
-                    <li>
-                      <NavLink
-                        to="profile"
-                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                        data-tip="Profile"
-                      >
-                        <MdOutlineManageAccounts className="inline-block size-4.5" />
-                        <span className="is-drawer-close:hidden">
-                          Profile
-                        </span>
-                      </NavLink>
-                    </li>
+                  
                     {/* My issue */}
                     <li>
                       <NavLink
@@ -196,18 +187,7 @@ const DashboardLayout = () => {
             {
                 role === "staff" && (
                   <>
-                    <li>
-                      <NavLink
-                        to="staff-profile"
-                        className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                        data-tip="Profile"
-                      >
-                        <MdOutlineManageAccounts className="inline-block size-4.5" />
-                        <span className="is-drawer-close:hidden">
-                          Profile
-                        </span>
-                      </NavLink>
-                    </li>
+                   
                     {/* Assigned issues */}
                     <li>
                       <NavLink
@@ -225,7 +205,19 @@ const DashboardLayout = () => {
                 )
             }
           
-              
+              {/* Profile */}
+              <li>
+                <NavLink
+                  to={`/dashboard/profile/${user?.email}`}
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Profile"
+                >
+                  <MdOutlineManageAccounts className="inline-block size-4.5" />
+                  <span className="is-drawer-close:hidden">
+                    Profile
+                  </span>
+                </NavLink>
+              </li>
               
             </ul>
           </div>

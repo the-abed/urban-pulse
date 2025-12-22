@@ -13,7 +13,6 @@ import ReportIssue from "../deshboard/citizen/ReportIssue";
 import PaymentSuccess from "../pages/Payment/PaymentSuccess";
 import PaymentCancelled from "../pages/Payment/PaymentCancelled";
 import StaffRoute from "./StaffRoute";
-import StaffProfile from "../deshboard/staff/StaffProfile";
 import AssignedIssues from "../deshboard/staff/AssignedIssues";
 import ManageUsers from "../deshboard/admin/ManageUsers";
 import ManageStaff from "../deshboard/admin/ManageStaff";
@@ -21,10 +20,11 @@ import AdminRoute from "./AdminRoute";
 import AssignStaff from "../deshboard/admin/AssignStaff";
 import ViewAllIssues from "../deshboard/admin/ViewAllIssues";
 import MyIssue from "../deshboard/citizen/MyIssue";
-import Profile from "../deshboard/citizen/Profile";
+
 import DashboardHome from "../deshboard/DashboardHome/DashboardHome";
 import AddStaff from "../deshboard/admin/AddStaff";
 import Payments from "../deshboard/admin/Payments";
+import Profile from "../pages/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +60,7 @@ const router = createBrowserRouter([
         path: "/contact",
         Component: Contact,
       },
+      
       {
         path: "/reportIssue",
         Component: () => (
@@ -130,12 +131,7 @@ const router = createBrowserRouter([
         </AdminRoute>
       },
       // staff routes
-      {
-        path: "/dashboard/staff-profile",
-        element: <StaffRoute>
-          <StaffProfile></StaffProfile>
-        </StaffRoute>
-      },
+     
       {
         path: "/dashboard/assigned-issue",
         element: <StaffRoute>
@@ -143,19 +139,19 @@ const router = createBrowserRouter([
         </StaffRoute>
       },
       // Citizen routes (Citizen@1212)
-     {
-      path: "/dashboard/profile",
-      element: <PrivateRoute>
-        <Profile></Profile>
-      </PrivateRoute>
-
-     },
+    
      {
       path: "/dashboard/my-issue",
       element: <PrivateRoute>
         <MyIssue></MyIssue>
       </PrivateRoute>
      },
+     {
+        path: "/dashboard/profile/:id",
+        element: <PrivateRoute>
+          <Profile></Profile>
+        </PrivateRoute>
+      },
      
     ]
   }
