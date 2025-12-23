@@ -12,8 +12,8 @@
 ### 🔑 Admin Credentials (Testing)
 > [!IMPORTANT]
 > For evaluation purposes, please use the following credentials to access the Admin Dashboard:
-> - **Email:** `admin@urbanpulse.com`
-> - **Password:** `Admin@1212`
+> - **Email:** `admin@gmail.com`
+> - **Password:** `Admin@12`
 
 ---
 
