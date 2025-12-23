@@ -5,7 +5,7 @@
 ---
 
 ### 🌐 Vital Links
-- **Live Site URL:** [https://urban-pulse-your-link.web.app](https://urban-pulse-your-link.web.app)
+- **Live Site URL:** [https://urban-pulse-your-link.web.app](https://urbanpulse-cb977.web.app/)
 - **Client Repo:** [https://github.com/the-abed/urban-pulse-client](https://github.com/the-abed/urban-pulse-client)
 - **Server Repo:** [https://github.com/the-abed/urban-pulse-server](https://github.com/the-abed/urban-pulse-server)
 
