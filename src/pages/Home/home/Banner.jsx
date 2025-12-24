@@ -112,7 +112,7 @@ const Banner = () => {
       </Swiper>
 
       {/* Custom styles for Swiper pagination/navigation to match your theme */}
-      <style jsx global>{`
+      <style dangerouslySetInnerHTML={{ __html: `
         .swiper-button-next, .swiper-button-prev {
           color: white !important;
           background: rgba(255, 255, 255, 0.1);
@@ -132,12 +132,12 @@ const Banner = () => {
           height: 12px;
         }
         .swiper-pagination-bullet-active {
-          background: #4F46E5 !important; /* Your Primary Color */
+          background: #ea6540 !important; /* Updated to your Primary Orange */
           opacity: 1;
           width: 30px;
           border-radius: 10px;
         }
-      `}</style>
+      `}} />
     </div>
   );
 };

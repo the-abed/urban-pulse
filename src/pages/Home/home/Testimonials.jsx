@@ -132,28 +132,28 @@ const Testimonials = () => {
         </Swiper>
       </div>
 
-      <style jsx global>{`
-        /* Adjusting the 3D perspective for smoother mobile viewing */
-        .testimonial-swiper {
-            perspective: 1000px;
-            overflow: visible !important;
+      <style dangerouslySetInnerHTML={{ __html: `
+    /* Adjusting the 3D perspective for smoother mobile viewing */
+    .testimonial-swiper {
+        perspective: 1000px;
+        overflow: visible !important;
+    }
+    .testimonial-swiper .swiper-pagination-bullet-active {
+        width: 30px !important;
+        background: #ea6540 !important; /* Matches your Warm Orange theme */
+        border-radius: 10px !important;
+    }
+    /* Ensure the slides don't overlap too much on small screens */
+    @media (max-width: 768px) {
+        .swiper-slide {
+            opacity: 0.4;
+            transition: opacity 0.3s;
         }
-        .testimonial-swiper .swiper-pagination-bullet-active {
-          width: 30px !important;
-          background: #4F46E5 !important;
-          border-radius: 10px !important;
+        .swiper-slide-active {
+            opacity: 1;
         }
-        /* Ensure the slides don't overlap too much on small screens */
-        @media (max-width: 768px) {
-            .swiper-slide {
-                opacity: 0.4;
-                transition: opacity 0.3s;
-            }
-            .swiper-slide-active {
-                opacity: 1;
-            }
-        }
-      `}</style>
+    }
+`}} />
     </section>
   );
 };
