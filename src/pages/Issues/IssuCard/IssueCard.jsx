@@ -54,81 +54,76 @@ const IssueCard = ({ issue }) => {
   };
 
   return (
-    <div className="group bg-white rounded-[2rem] overflow-hidden hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border border-gray-100 flex flex-col h-full relative">
+    <div className="group bg-base-100 rounded-[1.5rem] md:rounded-[2rem] overflow-hidden hover:shadow-xl transition-all duration-500 border border-base-300 flex flex-col h-full relative">
       <Toaster position="top-center" />
 
-      {/* Image Container */}
-      <div className="h-56 w-full overflow-hidden relative">
+      {/* Image Container - Adjusted height for mobile */}
+      <div className="h-32 sm:h-44 md:h-56 w-full overflow-hidden relative">
         <img
           src={photoUrl}
           alt={title}
           className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-700"
         />
         
-        {/* Status Overlay - Glassmorphism */}
-        <div className="absolute top-4 left-4">
-          <div className={`backdrop-blur-md bg-white/70 px-4 py-1.5 rounded-full border border-white/50 shadow-sm`}>
-            <span className={`text-[10px] font-black uppercase tracking-widest ${
+        {/* Status Overlay - Smaller on mobile */}
+        <div className="absolute top-2 left-2 md:top-4 md:left-4">
+          <div className="backdrop-blur-md bg-white/80 px-2 py-0.5 md:px-4 md:py-1.5 rounded-full border border-white/50 shadow-sm">
+            <span className={`text-[8px] md:text-[10px] font-black uppercase tracking-widest ${
                 status === "resolved" ? "text-success" : "text-orange-600"
               }`}>
-              ● {status}
+              {status}
             </span>
           </div>
         </div>
 
-        {/* Priority Indicator */}
         {boosted && (
-          <div className="absolute top-4 right-4 animate-pulse">
-             <span className="bg-primary text-white text-[10px] font-bold px-3 py-1.5 rounded-full shadow-lg uppercase tracking-tighter">
-               🔥 Boosted
+          <div className="absolute top-2 right-2 md:top-4 md:right-4">
+             <span className="bg-primary text-white text-[8px] md:text-[10px] font-bold px-2 py-0.5 md:px-3 md:py-1.5 rounded-full shadow-lg uppercase">
+               🔥
              </span>
           </div>
         )}
       </div>
 
-      {/* Body Content */}
-      <div className="p-6 flex flex-col flex-grow">
-        <div className="flex justify-between items-start mb-3">
-          <span className="text-[10px] font-bold text-primary bg-primary/5 px-3 py-1 rounded-md uppercase tracking-widest">
+      {/* Body Content - Reduced padding on mobile */}
+      <div className="p-3 md:p-6 flex flex-col flex-grow">
+        <div className="mb-1 md:mb-3">
+          <span className="text-[8px] md:text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md uppercase tracking-tighter md:tracking-widest">
             {category}
           </span>
         </div>
 
-        <h2 className="text-xl font-extrabold text-gray-900 leading-tight mb-2 group-hover:text-primary transition-colors line-clamp-2">
+        {/* Responsive Heading: Text size is key for 2-column mobile */}
+        <h2 className="text-sm md:text-xl font-black text-base-content leading-tight mb-1 md:mb-2 group-hover:text-primary transition-colors line-clamp-2">
           {title}
         </h2>
 
-        <p className="flex items-center gap-1.5 text-gray-500 text-sm font-medium mb-6">
-          <MapPin size={14} className="text-secondary" />
-          {upazila}, {district}
+        <p className="flex items-center gap-1 text-[10px] md:text-sm text-base-content/60 font-medium mb-3 md:mb-4">
+          <MapPin size={10} className="text-secondary md:w-3.5" />
+          <span className="truncate">{upazila}, {district}</span>
         </p>
 
-        {/* Action Footer */}
-        <div className="mt-auto pt-6 flex items-center justify-between border-t border-gray-50">
+        {/* Action Footer - Stacks or shrinks for mobile */}
+        <div className="mt-auto pt-3 md:pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between border-t border-base-300 gap-2">
           
-          {/* Elegant Upvote */}
           <button
             onClick={handleUpvote}
             disabled={hasUpvoted || user?.email === reporterEmail}
-            className={`flex items-center gap-2.5 transition-all duration-300 ${
-              hasUpvoted 
-                ? "text-primary scale-110" 
-                : "text-gray-400 hover:text-primary"
-            } ${user?.email === reporterEmail ? "opacity-30 cursor-not-allowed" : "cursor-pointer"}`}
+            className={`flex items-center gap-1.5 md:gap-2.5 transition-all ${
+              hasUpvoted ? "text-primary" : "text-base-content/40 hover:text-primary"
+            }`}
           >
-            <div className={`p-2 rounded-full transition-colors ${hasUpvoted ? "bg-primary/10" : "bg-gray-50"}`}>
-              <ThumbsUp size={18} fill={hasUpvoted ? "currentColor" : "none"} />
+            <div className={`p-1.5 md:p-2 rounded-full ${hasUpvoted ? "bg-primary/10" : "bg-base-200"}`}>
+              <ThumbsUp size={14} className="md:w-[18px]" fill={hasUpvoted ? "currentColor" : "none"} />
             </div>
-            <span className="text-sm font-bold">{voteCount}</span>
+            <span className="text-xs md:text-sm font-bold">{voteCount}</span>
           </button>
 
-          {/* Details Link */}
           <Link 
             to={`/issue-details/${_id}`}
-            className="group/btn flex items-center gap-2 text-sm font-bold text-gray-900 hover:text-primary transition-colors"
+            className="flex items-center gap-1 text-[10px] md:text-sm font-bold text-base-content hover:text-primary transition-colors ml-1 sm:ml-0"
           >
-            View Details 
-            <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+            Details <ArrowRight size={12} className="md:w-4" />
           </Link>
         </div>
       </div>

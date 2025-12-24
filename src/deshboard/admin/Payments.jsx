@@ -149,7 +149,8 @@ const Payments = () => {
             ) : (
               payments.map((p) => (
                 <tr key={p._id} className="hover:bg-gray-50">
-                  <td className="font-medium">{p.email}</td>
+                  <td className="font-medium">{p.
+reporterEmail}</td>
                   <td className="text-xs font-mono text-gray-500">
                     {p.transactionId}
                   </td>

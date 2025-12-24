@@ -26,6 +26,11 @@ import AddStaff from "../deshboard/admin/AddStaff";
 import Payments from "../deshboard/admin/Payments";
 import Profile from "../pages/Profile/Profile";
 import TermsAndConditions from "../pages/TermsAndConditions/TermsAndConditions";
+import EditIssue from "../pages/Issues/EditIssue/EditIssue";
+import ErrorPage from "../components/ui/ErrorPage";
+import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
+
+
 
 const router = createBrowserRouter([
   {
@@ -50,9 +55,21 @@ const router = createBrowserRouter([
       },
       {
         path: "/issue-details/:id",
-        element: <PrivateRoute><IssueDetails></IssueDetails></PrivateRoute>
-
+        element: (
+          <PrivateRoute>
+            <IssueDetails></IssueDetails>
+          </PrivateRoute>
+        ),
       },
+      {
+        path: "/edit-issue/:id",
+        element: (
+          <PrivateRoute>
+            <EditIssue></EditIssue>
+          </PrivateRoute>
+        ),
+      },
+
       {
         path: "/about",
         Component: About,
@@ -62,103 +79,127 @@ const router = createBrowserRouter([
         Component: Contact,
       },
       {
-        path: '/terms-and-conditions',
-        Component: TermsAndConditions
+        path: "/terms-and-conditions",
+        Component: TermsAndConditions,
       },
-      
       {
-        path: "/reportIssue",
-        Component: () => (
+        path: "/privacy-policy",
+        Component: PrivacyPolicy
+      },
+
+     {
+  path: "/reportIssue",
+  element: (
+    <PrivateRoute>
+      <ReportIssue />
+    </PrivateRoute>
+  ),
+},
+    ],
+  },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        Component: DashboardHome,
+      },
+
+      {
+        path: "/dashboard/payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "/dashboard/payment-cancelled",
+        Component: PaymentCancelled,
+      },
+      //Admin routes
+      {
+        path: "/dashboard/addstaff",
+        element: (
+          <AdminRoute>
+            <AddStaff></AddStaff>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/manage-users",
+        element: (
           <PrivateRoute>
-            <ReportIssue />
+            <ManageUsers></ManageUsers>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/manage-staff",
+        element: (
+          <AdminRoute>
+            <ManageStaff></ManageStaff>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/assign-staff",
+        element: (
+          <AdminRoute>
+            <AssignStaff></AssignStaff>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/view-all-issues",
+        element: (
+          <AdminRoute>
+            <ViewAllIssues></ViewAllIssues>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/dashboard/payments",
+        element: (
+          <AdminRoute>
+            <Payments></Payments>
+          </AdminRoute>
+        ),
+      },
+      // staff routes
+
+      {
+        path: "/dashboard/assigned-issue",
+        element: (
+          <StaffRoute>
+            <AssignedIssues></AssignedIssues>
+          </StaffRoute>
+        ),
+      },
+      // Citizen routes (Citizen@1212)
+
+      {
+        path: "/dashboard/my-issue",
+        element: (
+          <PrivateRoute>
+            <MyIssue></MyIssue>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/profile/:id",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
           </PrivateRoute>
         ),
       },
     ],
   },
   {
-    path: "dashboard",
-    element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
-    children: [
-      {
-        index: true,
-        Component: DashboardHome,
-      },
-      
-      {
-        path: '/dashboard/payment-success',
-        Component: PaymentSuccess
-      },
-      {
-        path: '/dashboard/payment-cancelled',
-        Component: PaymentCancelled
-      },
-      //Admin routes
-      {
-        path: "/dashboard/addstaff",
-        element: <AdminRoute>
-          <AddStaff></AddStaff>
-        </AdminRoute>
-      },
-      {
-        path: "/dashboard/manage-users",
-        element: <PrivateRoute>
-          <ManageUsers></ManageUsers>
-        </PrivateRoute>
-      },
-      {
-        path: "/dashboard/manage-staff",
-        element:
-        <AdminRoute>
-
-          <ManageStaff></ManageStaff>
-        </AdminRoute> 
-       
-      },
-      {
-        path: "/dashboard/assign-staff",
-        element: <AdminRoute>
-          <AssignStaff></AssignStaff>
-        </AdminRoute>
-      },
-      {
-        path: "/dashboard/view-all-issues",
-        element: 
-          <AdminRoute>
-            <ViewAllIssues></ViewAllIssues>
-          </AdminRoute>
-        
-      },
-      {
-        path: "/dashboard/payments",
-        element: <AdminRoute>
-          <Payments></Payments>
-        </AdminRoute>
-      },
-      // staff routes
-     
-      {
-        path: "/dashboard/assigned-issue",
-        element: <StaffRoute>
-          <AssignedIssues></AssignedIssues>
-        </StaffRoute>
-      },
-      // Citizen routes (Citizen@1212)
-    
-     {
-      path: "/dashboard/my-issue",
-      element: <PrivateRoute>
-        <MyIssue></MyIssue>
-      </PrivateRoute>
-     },
-     {
-        path: "/dashboard/profile/:id",
-        element: <PrivateRoute>
-          <Profile></Profile>
-        </PrivateRoute>
-      },
-     
-    ]
+    path: "*",
+    element: <ErrorPage />
   }
 ]);
 

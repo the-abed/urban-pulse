@@ -48,7 +48,7 @@ const DashboardLayout = () => {
                 <path d="M14 10l2 2l-2 2"></path>
               </svg>
             </label>
-            <div className="px-4">
+            <div className="px-2">
              <UrbanPulseLogo></UrbanPulseLogo>
             </div>
             <h4 className="text-xl font-bold  -mb-2.5">Dashboard</h4>

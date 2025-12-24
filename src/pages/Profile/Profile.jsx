@@ -85,7 +85,7 @@ const Profile = () => {
                     <div className="space-y-1">
                         <h2 className="text-3xl font-bold flex items-center gap-2">
                             {user?.displayName}
-                            {user?.isPremium && <span className="badge badge-warning text-xs">Premium</span>}
+                            {user?.isPremium === true && <span className="badge badge-warning text-xs">Premium</span>}
                         </h2>
                         <p className="text-gray-500 font-medium">{user?.email}</p>
                         <div className="flex gap-2 pt-2">

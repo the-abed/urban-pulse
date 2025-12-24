@@ -68,7 +68,7 @@ const AdminDashboard = () => {
         <h2 className="text-3xl font-bold">Admin Dashboard</h2>
 
         <Link to="/dashboard/addstaff">
-          <button className="btn btn-primary">Add Staff</button>
+          <button className="btn btn-primary rounded-3xl text-white w-full">Add Staff</button>
         </Link>
       </div>
 

@@ -17,7 +17,7 @@ const MainLayout = () => {
             </header>
             
             {/* 3. Main Content Area: Takes up remaining space (flex-grow) */}
-            <main className="grow container max-w-11/12 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="grow container mx-auto py-4">
                 {/* The content of the current route */}
                 <Outlet />
             </main>

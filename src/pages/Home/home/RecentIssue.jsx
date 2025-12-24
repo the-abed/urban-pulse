@@ -56,7 +56,7 @@ const RecentIssue = () => {
         </div>
 
         {/* Grid Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
           {isLoading
             ? [...Array(6)].map((_, idx) => (
                 <IssueCardSkeleton key={idx} />

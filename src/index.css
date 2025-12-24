@@ -17,49 +17,51 @@
   default: true;
 
   /* Brand Colors */
-  --color-primary: #ea6540;      /* Warm orange */
-  --color-secondary: #0f766e;    /* Soft teal */
-  --color-accent: #f1f5f9;       /* Subtle gray */
+  --color-primary: #ea6540;       /* Your Warm Orange */
+  --color-secondary: #0d9488;     /* Richer, more elegant Teal */
+  --color-accent: #6366f1;        /* Royal Indigo for high-end feel */
 
   /* Status Colors */
-  --color-info: #2563eb;
-  --color-success: #16a34a;
-  --color-warning: #f59e0b;
-  --color-error: #dc2626;
+  --color-info: #0ea5e9;          /* Sky Blue */
+  --color-success: #10b981;       /* Emerald Green */
+  --color-warning: #f59e0b;       /* Amber */
+  --color-error: #ef4444;         /* Rose Red */
 
-  /* Base UI */
-  --base-100: #ffffff;          /* Main background */
-  --base-200: #f8fafc;          /* Cards */
-  --base-300: #e5e7eb;          /* Borders */
-  --base-content: #1f2937;      /* Text */
+  /* Base UI - "The Elegant Look" */
+  --base-100: #ffffff;            /* Pure White */
+  --base-200: #fcfcfd;            /* Very soft pearl for card bgs */
+  --base-300: #f1f5f9;            /* Cool slate for subtle borders */
+  --base-content: #0f172a;        /* Deep navy text for better readability */
 
   /* Effects */
-  --shadow-color: rgba(0, 0, 0, 0.08);
+  --radius-selector: 1rem;        /* Modern rounded corners */
+  --radius-field: 0.75rem;
+  --shadow-color: rgba(15, 23, 42, 0.05);
 }
 
 /* --------------------------- */
-/* 🌙 DARK THEME               */
+/* 🌙 DARK THEME (Sleek)      */
 /* --------------------------- */
 @plugin "daisyui/theme" {
   name: "dark";
 
   --color-primary: #ea6540;
   --color-secondary: #2dd4bf;
-  --color-accent: #1f2937;
+  --color-accent: #818cf8;        /* Lighter Indigo for dark mode */
 
-  --color-info: #60a5fa;
-  --color-success: #4ade80;
-  --color-warning: #facc15;
-  --color-error: #f87171;
+  --color-info: #38bdf8;
+  --color-success: #34d399;
+  --color-warning: #fbbf24;
+  --color-error: #fb7185;
 
-  --base-100: #0f172a;
-  --base-200: #111827;
-  --base-300: #1f2937;
-  --base-content: #e5e7eb;
+  /* Deep Space Palette */
+  --base-100: #020617;            /* True midnight for elegance */
+  --base-200: #0f172a;            /* Deep navy card bgs */
+  --base-300: #1e293b;            /* Soft borders */
+  --base-content: #f8fafc;        /* Off-white text */
 
-  --shadow-color: rgba(0, 0, 0, 0.4);
+  --shadow-color: rgba(0, 0, 0, 0.3);
 }
-
 
 body{
   font-family: "Inter", sans-serif;
