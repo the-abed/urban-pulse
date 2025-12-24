@@ -21,9 +21,9 @@
 
 
 
-| **Hero Banner** | **Issue Feed** |
+| **Hero Banner**
 |---|---|
-| ![Banner](https://i.ibb.co.com/G4xKFZ6F/high-angle-shot-bandra-worli-sealink-mumbai-enveloped-with-fog.jpg) | ![Cards](https://i.ibb.co.com/JF55bWDH/city-park-with-lake.jpg) |
+| ![Banner](./src/assets/UrbanPulsLogo-removebg-preview.png) 
 
 ---
 
