@@ -5,15 +5,15 @@
 ---
 
 ### 🌐 Vital Links
-- **Live Site URL:** [https://urban-pulse-your-link.web.app](https://urban-pulse-your-link.web.app)
+- **Live Site URL:** [https://urban-pulse-your-link.web.app](https://urbanpulse-cb977.web.app/)
 - **Client Repo:** [https://github.com/the-abed/urban-pulse-client](https://github.com/the-abed/urban-pulse-client)
 - **Server Repo:** [https://github.com/the-abed/urban-pulse-server](https://github.com/the-abed/urban-pulse-server)
 
 ### 🔑 Admin Credentials (Testing)
 > [!IMPORTANT]
 > For evaluation purposes, please use the following credentials to access the Admin Dashboard:
-> - **Email:** `admin@urbanpulse.com`
-> - **Password:** `Admin@1212`
+> - **Email:** `admin@gmail.com`
+> - **Password:** `Admin@12`
 
 ---
 
