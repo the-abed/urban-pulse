@@ -23,7 +23,7 @@
 
 | **Hero Banner**
 |---|---|
-| ![Banner](./src/assets/UrbanPulsLogo-removebg-preview.png) 
+| ![Banner](./src/assets/urbanPulse_Home.png) 
 
 ---
 
