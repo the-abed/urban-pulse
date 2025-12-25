@@ -57,7 +57,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section className="py-18 relative ">
+    <section className="py-14 relative ">
       {/* Dynamic Background Blurs */}
       <div className="absolute top-0 -left-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl" />
       <div className="absolute bottom-0 -right-20 w-96 h-96 bg-secondary/10 rounded-full blur-3xl" />

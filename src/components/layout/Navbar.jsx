@@ -83,7 +83,7 @@ const Navbar = () => {
         {/* Navbar End: User Profile / Auth Actions */}
         <div className="navbar-end gap-3">
           {/* <ThemeController /> */}
-          
+          {/* <ThemeController></ThemeController> */}
           {user ? (
             <div className="dropdown dropdown-end">
               <label tabIndex={0} className="btn btn-ghost btn-circle avatar border-2 border-primary/20 hover:border-primary transition-all">

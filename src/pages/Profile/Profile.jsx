@@ -71,7 +71,10 @@ const Profile = () => {
                     <div className="relative -mt-16 mb-4 flex justify-between items-end">
                         <div className="avatar">
                             <div className="w-32 h-32 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 bg-base-100">
-                                <img src={user?.photoURL || "https://via.placeholder.com/150"} alt="Avatar" />
+                                <img src={user?.photoURL || "https://via.placeholder.com/150"}
+                                referrerPolicy="no-referrer"
+                                alt="Avatar" />
+                                
                             </div>
                         </div>
                         <button 
