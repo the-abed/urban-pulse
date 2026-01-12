@@ -25,7 +25,7 @@ const Home = () => {
             <StatsSection></StatsSection>
             <PremiumSection></PremiumSection>
             <Testimonials></Testimonials>
-            
+            <FAQ></FAQ>
             </section>
         </div>
     );
