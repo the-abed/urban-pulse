@@ -35,7 +35,7 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="py-24 bg-base-100 overflow-hidden relative">
+    <section className="py-24 bg-base-100 overflow-hidden relative ">
       {/* Background Decorative Element */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full opacity-5 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--color-primary)_0%,_transparent_70%)]" />

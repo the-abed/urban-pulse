@@ -1,6 +1,6 @@
 const StatsSection = () => {
   return (
-    <section className="py-16 bg-primary text-primary-content">
+    <section className="py-16 bg-primary text-primary-content ">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
           <div>

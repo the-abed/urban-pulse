@@ -7,7 +7,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
 
 const BecomePremium = () => {
   return (
-    <div className=" flex flex-col items-center justify-center mt-14">
+    <div className=" flex flex-col items-center justify-center mt-14 ">
       <div className=" w-full grid md:grid-cols-2 gap-10">
         {/* Benefit Card */}
         <div className="bg-gray-900 text-white p-10 rounded-[3rem] shadow-2xl relative overflow-hidden">

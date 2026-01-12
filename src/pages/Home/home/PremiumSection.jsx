@@ -1,6 +1,6 @@
 const PremiumSection = () => {
   return (
-    <section className="py-20 bg-base-200">
+    <section className="py-20 bg-base-200 ">
       <div className="container mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
         <div className="flex-1">
           <span className="badge badge-secondary mb-4 p-4 font-bold">PREMIUM CITIZEN</span>

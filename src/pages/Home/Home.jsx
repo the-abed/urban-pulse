@@ -9,6 +9,7 @@ import RecentIssue from './home/RecentIssue';
 import Banner from './home/Banner';
 import Testimonials from './home/Testimonials';
 import BecomePremium from './home/BecomePremium';
+import FAQ from './home/FAQ';
 
 const Home = () => {
     return (
@@ -24,6 +25,7 @@ const Home = () => {
             <StatsSection></StatsSection>
             <PremiumSection></PremiumSection>
             <Testimonials></Testimonials>
+            
             </section>
         </div>
     );
