@@ -1,147 +1,226 @@
 import React from "react";
-import { Link, NavLink, Outlet, useNavigate } from "react-router";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Inbox, 
-  Settings, 
-  CreditCard, 
-  AlertCircle, 
-  UserCircle, 
-  Home,
-  LogOut,
-  ChevronRight,
-  PanelLeft
-} from "lucide-react";
+import { Link, NavLink, Outlet } from "react-router";
+import { CiCreditCard1, CiDeliveryTruck } from "react-icons/ci";
+import { FaTasks } from "react-icons/fa";
+import { AiOutlineCheckCircle } from "react-icons/ai";
+import { FaAddressCard, FaMotorcycle } from "react-icons/fa6";
+import {
+  MdAssignmentInd,
+  MdOutlineAllInbox,
+  MdOutlineDirectionsBike,
+  MdOutlineManageAccounts,
+  MdOutlinePayment,
+} from "react-icons/md";
+import logoImage from "../assets/UrbanPulsLogo-removebg-preview.png";
 import UrbanPulseLogo from "../components/shared/UrbanPulseLogo";
 import useRole from "../hooks/useRole";
 import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
   const { role } = useRole();
-  const { user, logOut } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logOut().then(() => navigate("/"));
-  };
-
-  const activeClass = "bg-primary/10 text-primary font-bold border-r-4 border-primary";
-  const normalClass = "text-base-content/70 hover:bg-base-300 hover:text-base-content transition-all duration-200";
-
-  const SidebarLink = ({ to, icon: Icon, label, tip }) => (
-    <li>
-      <NavLink
-        to={to}
-        end={to === "/dashboard"}
-        className={({ isActive }) => 
-          `flex items-center gap-3 px-4 py-3 my-1 rounded-lg mx-2 ${isActive ? activeClass : normalClass}`
-        }
-      >
-        <Icon size={20} />
-        <span className="font-medium">{label}</span>
-      </NavLink>
-    </li>
-  );
+  const { user } = useAuth();
 
   return (
-    <div className="bg-base-100 min-h-screen">
+    <div>
       <div className="drawer lg:drawer-open">
         <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-        
-        <div className="drawer-content flex flex-col">
-          {/* Enhanced Top Navbar */}
-          <nav className="navbar sticky top-0 z-30 w-full bg-base-100/80 backdrop-blur-md border-b border-base-200 px-4">
-            <div className="flex-none lg:hidden">
-              <label htmlFor="my-drawer-4" className="btn btn-square btn-ghost">
-                <PanelLeft size={24} />
-              </label>
-            </div>
-            
-            <div className="flex-1 px-2 flex items-center gap-2">
-               <div className="lg:hidden"><UrbanPulseLogo /></div>
-               <h2 className="text-xl font-black tracking-tight ml-2">Urban<span className="text-primary">Pulse</span> Dashboard</h2>
-            </div>
-
-            <div className="flex-none gap-2">
-              <div className="hidden md:block text-right mr-2">
-                <p className="text-xs font-bold opacity-50 uppercase tracking-widest">{role}</p>
-                <p className="text-sm font-medium">{user?.displayName}</p>
-              </div>
-              <div className="avatar ring-2 ring-primary/20 rounded-full">
-                <div className="w-10 rounded-full">
-                  <img src={user?.photoURL || "https://i.ibb.co/mJR7z9Y/user-placeholder.png"} referrerPolicy="no-referrer" />
-                </div>
-              </div>
-            </div>
+        <div className="drawer-content">
+          {/* Navbar */}
+          <nav className="navbar w-full bg-base-300">
+            <label
+              htmlFor="my-drawer-4"
+              aria-label="open sidebar"
+              className="btn btn-square btn-ghost"
+            >
+              {/* Sidebar toggle icon */}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2"
+                fill="none"
+                stroke="currentColor"
+                className="my-1.5 inline-block size-4"
+              >
+                <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                <path d="M9 4v16"></path>
+                <path d="M14 10l2 2l-2 2"></path>
+              </svg>
+            </label>
+            {/* <div className="px-2">
+              <UrbanPulseLogo></UrbanPulseLogo>
+            </div> */}
+            <h4 className="text-2xl font-bold -mb-2">
+              <span className="text-[#2c4a5e]">Dash</span>
+                    <span className="text-[#ea6540]">board</span>
+            </h4>
           </nav>
-
-          {/* Page content wrapper with subtle padding and background */}
-          <main className="p-6 bg-base-200/50 grow">
-            <div className="max-w-7xl mx-auto animate-in fade-in duration-500">
-              <Outlet />
-            </div>
-          </main>
+          {/* Page content here */}
+          <Outlet></Outlet>
         </div>
 
-        {/* Styled Sidebar */}
-        <div className="drawer-side z-40">
-          <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-          <div className="flex flex-col w-72 min-h-full bg-base-100 border-r border-base-200 shadow-xl">
-            
-            {/* Sidebar Header */}
-            <div className="p-6 mb-2">
-              <UrbanPulseLogo />
-            </div>
+        <div className="drawer-side is-drawer-close:overflow-visible">
+          <label
+            htmlFor="my-drawer-4"
+            aria-label="close sidebar"
+            className="drawer-overlay"
+          ></label>
+          <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
+            {/* Sidebar content here */}
+            <ul className="menu w-full grow">
+              <li>
+                <Link to="/" className=" py-2">
+                <img className="w-12 h-8" src={logoImage} alt="" />
+                  <span className="is-drawer-close:hidden text-2xl font-bold -mb-2.5">
+                    <span className="text-[#2c4a5e]">Urban</span>
+                    <span className="text-[#ea6540]">Pulse</span>
+                  </span>
+                </Link>
+              </li>
+              {/* List item */}
+              <li>
+                <Link
+                  to="/dashboard"
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Homepage"
+                >
+                  {/* Home icon */}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    strokeWidth="2"
+                    fill="none"
+                    stroke="currentColor"
+                    className="my-1.5 inline-block size-4"
+                  >
+                    <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                    <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  </svg>
+                  <span className="is-drawer-close:hidden">Homepage</span>
+                </Link>
+              </li>
 
-            {/* Menu Sections */}
-            <ul className="menu p-0 w-full grow block">
-              <p className="px-6 py-2 text-[10px] font-black uppercase text-base-content/40 tracking-[0.2em]">Main Menu</p>
-              
-              <SidebarLink to="/dashboard" icon={Home} label="Overview" />
-
-              {/* Admin Section */}
+              {/* Admin only links */}
               {role === "admin" && (
                 <>
-                  <p className="px-6 py-4 text-[10px] font-black uppercase text-base-content/40 tracking-[0.2em]">Admin Management</p>
-                  <SidebarLink to="manage-users" icon={Users} label="Manage Users" />
-                  <SidebarLink to="view-all-issues" icon={Inbox} label="All Issues" />
-                  <SidebarLink to="manage-staff" icon={Settings} label="Staff Settings" />
-                  <SidebarLink to="/dashboard/payments" icon={CreditCard} label="Payment Logs" />
+                  <li>
+                    <NavLink
+                      to="manage-users"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Manage Users"
+                    >
+                      <MdOutlineManageAccounts className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">
+                        Manage Users
+                      </span>
+                    </NavLink>
+                  </li>
+
+                  {/* All issues */}
+                  <li>
+                    <NavLink
+                      to="view-all-issues"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="All Issues"
+                    >
+                      <MdOutlineAllInbox className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">
+                        {" "}
+                        View All Issues
+                      </span>
+                    </NavLink>
+                  </li>
+                  {/* Manage staff */}
+                  <li>
+                    <NavLink
+                      to="manage-staff"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Manage Staff"
+                    >
+                      <MdOutlineManageAccounts className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">
+                        Manage Staff
+                      </span>
+                    </NavLink>
+                  </li>
+                  {/* Payments page */}
+                  <li>
+                    <NavLink
+                      to="/dashboard/payments"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Payments"
+                    >
+                      <MdOutlinePayment className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">Payments</span>
+                    </NavLink>
+                  </li>
                 </>
               )}
 
-              {/* Citizen Section */}
+              {/* Citizen only links */}
               {role === "citizen" && (
                 <>
-                  <p className="px-6 py-4 text-[10px] font-black uppercase text-base-content/40 tracking-[0.2em]">Reporting</p>
-                  <SidebarLink to="my-issue" icon={Inbox} label="My Submissions" />
-                  <SidebarLink to="/reportIssue" icon={AlertCircle} label="File New Report" />
+                  {/* My issue */}
+                  <li>
+                    <NavLink
+                      to="my-issue"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="My Issue"
+                    >
+                      <MdOutlineAllInbox className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">My Issue</span>
+                    </NavLink>
+                  </li>
+                  {/* Report Issue */}
+                  <li>
+                    <NavLink
+                      to="/reportIssue"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Report Issue"
+                    >
+                      <MdOutlineAllInbox className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">
+                        Report Issue
+                      </span>
+                    </NavLink>
+                  </li>
                 </>
               )}
 
-              {/* Staff Section */}
+              {/* Staff only links */}
               {role === "staff" && (
                 <>
-                  <p className="px-6 py-4 text-[10px] font-black uppercase text-base-content/40 tracking-[0.2em]">Field Ops</p>
-                  <SidebarLink to="assigned-issue" icon={Inbox} label="Work Queue" />
+                  {/* Assigned issues */}
+                  <li>
+                    <NavLink
+                      to="assigned-issue"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Assigned Issues"
+                    >
+                      <MdOutlineAllInbox className="inline-block size-4.5" />
+                      <span className="is-drawer-close:hidden">
+                        Assigned Issues
+                      </span>
+                    </NavLink>
+                  </li>
                 </>
               )}
 
-              <p className="px-6 py-4 text-[10px] font-black uppercase text-base-content/40 tracking-[0.2em]">Personal</p>
-              <SidebarLink to={`/dashboard/profile/${user?.email}`} icon={UserCircle} label="My Profile" />
+              {/* Profile */}
+              <li>
+                <NavLink
+                  to={`/dashboard/profile/${user?.email}`}
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Profile"
+                >
+                  <MdOutlineManageAccounts className="inline-block size-4.5" />
+                  <span className="is-drawer-close:hidden">Profile</span>
+                </NavLink>
+              </li>
             </ul>
-
-            {/* Sidebar Footer User Card */}
-            <div className="p-4 border-t border-base-200 bg-base-200/50">
-              <button 
-                onClick={handleLogout}
-                className="btn btn-error btn-ghost w-full justify-start gap-3 normal-case hover:bg-error/10"
-              >
-                <LogOut size={20} />
-                <span>Logout</span>
-              </button>
-            </div>
           </div>
         </div>
       </div>
